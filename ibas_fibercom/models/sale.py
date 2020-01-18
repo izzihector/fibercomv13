@@ -43,3 +43,26 @@ class IBASSale(models.Model):
             vals['pricelist_id'] = vals.setdefault('pricelist_id', partner.property_product_pricelist and partner.property_product_pricelist.id)
         result = super(IBASSale, self).create(vals)
         return result
+    
+    def mark_approved(self):
+        for rec in self:
+            rec.name = rec.name.replace(' ISSUANCE','')
+            rec.name = rec.name.replace(' APPROVED','')
+            rec.name = rec.name.replace(' DONE','')
+            rec.name = rec.name + " APPROVED"
+    
+    def mark_issuance(self):
+        for rec in self:
+            rec.name = rec.name.replace('APPROVED','ISSUANCE')
+            
+    
+    def mark_done(self):
+        for rec in self:
+            rec.name = rec.name.replace('APPROVED','DONE')
+            rec.name = rec.name.replace('ISSUANCE','DONE')
+    
+    def clear_marks(self):
+        for rec in self:
+            rec.name = rec.name.replace(' ISSUANCE','')
+            rec.name = rec.name.replace(' APPROVED','')
+            rec.name = rec.name.replace(' DONE','')
