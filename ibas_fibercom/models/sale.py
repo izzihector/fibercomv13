@@ -10,6 +10,8 @@ _logger = logging.getLogger(__name__)
 class IBASSale(models.Model):
     _inherit = 'sale.order' 
 
+    name = fields.Char(string='Order Reference', required=True, copy=False, states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
+
     ibas_order_type = fields.Selection([
         ('MRF', 'MRF'),
         ('SALE', 'Sale'),
@@ -44,25 +46,25 @@ class IBASSale(models.Model):
         result = super(IBASSale, self).create(vals)
         return result
     
-    def mark_approved(self):
-        for rec in self:
-            rec.name = rec.name.replace(' ISSUANCE','')
-            rec.name = rec.name.replace(' APPROVED','')
-            rec.name = rec.name.replace(' DONE','')
-            rec.name = rec.name + " APPROVED"
+    # def mark_approved(self):
+    #     for rec in self:
+    #         rec.name = rec.name.replace(' ISSUANCE','')
+    #         rec.name = rec.name.replace(' APPROVED','')
+    #         rec.name = rec.name.replace(' DONE','')
+    #         rec.name = rec.name + " APPROVED"
     
-    def mark_issuance(self):
-        for rec in self:
-            rec.name = rec.name.replace('APPROVED','ISSUANCE')
+    # def mark_issuance(self):
+    #     for rec in self:
+    #         rec.name = rec.name.replace('APPROVED','ISSUANCE')
             
     
-    def mark_done(self):
-        for rec in self:
-            rec.name = rec.name.replace('APPROVED','DONE')
-            rec.name = rec.name.replace('ISSUANCE','DONE')
+    # def mark_done(self):
+    #     for rec in self:
+    #         rec.name = rec.name.replace('APPROVED','DONE')
+    #         rec.name = rec.name.replace('ISSUANCE','DONE')
     
-    def clear_marks(self):
-        for rec in self:
-            rec.name = rec.name.replace(' ISSUANCE','')
-            rec.name = rec.name.replace(' APPROVED','')
-            rec.name = rec.name.replace(' DONE','')
+    # def clear_marks(self):
+    #     for rec in self:
+    #         rec.name = rec.name.replace(' ISSUANCE','')
+    #         rec.name = rec.name.replace(' APPROVED','')
+    #         rec.name = rec.name.replace(' DONE','')
