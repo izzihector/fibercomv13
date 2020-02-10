@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<template id="report_delivey_custom" inherit_id="purchase.report_purchasequotation_document">
+	 	<xpath expr="//h2" position="replace">
+	 		<h2>Purchase Order <span t-field="o.name"/></h2>
+	 	</xpath>
+        <xpath expr="//table" position="after">
+            <div style="margin-top: 20px; width: 100%; text-align: center;">
+                <div style="width: 50%; float: left;">Prepared By: <br/><br/> <strong><span t-field="o.prepared_by"/></strong><br/><span t-field="o.prepared_by_designation"/></div>
+                <div style="width: 50%; float:right;">Received By: <br/><br/>______________________</div>
+                <div style="clear:both;"/>
+            </div>
+            <div style="margin-top: 20px; width: 100%; text-align: center;">
+                <div style="width: 50%; float:left;">Approved By: <br/><br/><strong><span t-field="o.approved_by"/></strong><br/><span t-field="o.approved_by_designation"/></div>
+                <div style="width: 50%; float:right;">Note By: <br/><br/>______________________</div>
+                <div style="clear:both;"/>
+            </div>
+        </xpath>
+	</template>
+</odoo>
