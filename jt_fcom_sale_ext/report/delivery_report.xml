@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<template id="report_delivey_custom_delivery" inherit_id="stock.report_delivery_document">
+	 	<xpath expr="//table[@name='stock_move_line_table']" position="after">
+	 		<div class="pull-right">
+            <strong class="mr16"><span> Recevied by:______________________</span><br/>
+                                <span> Date:______________________________</span>
+            </strong>
+            </div> 
+        </xpath>
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <div style="width: 100% margin-bottom: 10px;">
+                <div style="float: left; width:50%;">
+                    <div>
+                        <strong>Issued To:</strong><br/><div t-esc="o.subcon"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+                    </div>
+                </div>
+                <div style="float: left;width:50%;">
+                    <div>
+                        <strong>For:</strong><br/><div t-esc="partner"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+                    </div>
+                </div>
+                <div style="clear:both;"/>
+            </div>
+        </xpath>
+	</template>
+</odoo>
