@@ -75,6 +75,15 @@ class StockPicking(models.Model):
     approved_by = fields.Char(
         related="sale_id.approved_by", string="Approved by")
 
+    @api.model
+    def create(self, vals):
+        res = super(StockPicking, self).create(vals)
+        if res.partner_id and res.partner_id.project_code:
+            res.project_code = res.partner_id.project_code
+        if res.partner_id and res.partner_id.project_area:
+            res.project_area = res.partner_id.project_area
+        return res
+
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
         if self.partner_id and self.partner_id.project_code:

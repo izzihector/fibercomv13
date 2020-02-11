@@ -29,7 +29,7 @@
     'maintainer': 'Jupical Technologies Pvt. Ltd.',
     'website': 'http://www.jupical.com',
     'license': 'AGPL-3',
-    'depends': ['crm', 'sale_management', 'contacts', 'purchase_stock', 'account_accountant'],
+    'depends': ['sale_management', 'contacts', 'purchase_stock', 'account_accountant', 'ibas_fibercom'],
     'data': [
         'views/res_partner_view.xml',
         'views/sale_order_view.xml',
