@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Server Action to fill warehouse_id to location for old locations -->
+        <record id="action_server_fill_warehouse_id" model="ir.actions.server">
+            <field name="name">Fill Warehouse for locations</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="stock.model_stock_location"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="stock.model_stock_location"/>
+            <field name="code">
+                if records:
+                    action = records.fill_warehouse_ids()
+            </field>
+        </record>
+    </data>
+</odoo>

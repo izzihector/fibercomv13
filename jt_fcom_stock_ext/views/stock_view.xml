@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stock_quant_tree_editable_inherit_fcom_stock_ext" model="ir.ui.view">
+            <field name="name">view.form.stock.quant</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock_account.view_stock_quant_tree_editable_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value']" position="attributes">
+                    <attribute name="groups">stock.group_stock_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_location_form_inh_fcom" model="ir.ui.view">
+            <field name="name">view.form.stock.location</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="warehouse_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_warehouse_report_user"
+            name="Reporting"
+            sequence="99"
+            parent="stock.menu_stock_root"
+            groups="group_fcom_inv_user"/>
+
+        <menuitem
+            id="menu_valuation_inv_user"
+            name="Inventory Report"
+            parent="menu_warehouse_report_user"
+            sequence="100"
+            groups="group_fcom_inv_user"
+            action="stock.action_view_quants"
+        />
+    </data>
+</odoo>
