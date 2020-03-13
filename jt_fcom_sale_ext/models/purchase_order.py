@@ -39,9 +39,14 @@ class PurchaseOrder(models.Model):
     requested_by_designation = fields.Char(string='Requested by Designation', default='Project Manager')
 
     def write(self, vals):
-        self.ensure_one()
         if vals.get('state') in ['done', 'purchase']:
             user = self.env.user
             if user and user.has_group('jt_fcom_sale_ext.group_fcom_purchase_engineer'):
                 raise ValidationError('You are not allowed to validate RFQ!')
         return super(PurchaseOrder, self).write(vals)
+
+    def print_quotation(self):
+        user = self.env.user
+        if user and user.has_group('purchase.group_purchase_user'):
+            self.write({'state': "sent"})
+        return self.env.ref('purchase.report_purchase_quotation').report_action(self)
