@@ -9,12 +9,26 @@
                 <field name="requested_by" attrs="{'invisible': [('ibas_order_type', '!=', 'MRF')]}"/>
 		        <field name="approved_by" attrs="{'invisible': [('ibas_order_type', '!=', 'MRF')]}"/>
                 <field name="is_admin"/>
+                <field name="group_engineer" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='analytic_account_id']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_admin', '=', False)]}</attribute>
             </xpath>
             <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="attributes">
                 <attribute name="attrs">{'readonly':[('parent.is_admin', '=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="sale_order_form_view_ibas_fibercom" model="ir.ui.view">
+        <field name="name">sale.order.form.view.inh</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="ibas_fibercom.ibas_sale_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ibas_order_type']" position="replace">
+                <field name="group_engineer" invisible="1"/>
+                <field name="ibas_order_type" attrs="{'readonly': [('group_engineer', '=', True)]}" force_save="1"/>
             </xpath>
         </field>
     </record>
