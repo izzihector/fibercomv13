@@ -30,6 +30,27 @@ class SaleOrder(models.Model):
     requested_by = fields.Char(string="Requested by")
     approved_by = fields.Char(string="Approved by")
 
+    def _compute_group_engineer(self):
+        for order in self:
+            order.group_engineer = False
+            user = self.env.user
+            if user and user.has_group('jt_fcom_sale_ext.group_fcom_sale_engineer'):
+                order.group_engineer = True
+
+    group_engineer = fields.Boolean(string='Is Engineer?', compute="_compute_group_engineer")
+
+    @api.onchange('ibas_order_type')
+    def _onchange_document_type(self):
+        self._compute_group_engineer()
+
+    @api.model
+    def default_get(self, fields):
+        res = super(SaleOrder, self).default_get(fields)
+        user = self.env.user
+        if user and user.has_group('jt_fcom_sale_ext.group_fcom_sale_engineer'):
+            res['ibas_order_type'] = 'MRF'
+        return res
+
     def _compute_is_admin(self):
         for order in self:
             order.is_admin = False
