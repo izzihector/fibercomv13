@@ -214,15 +214,21 @@
                                 <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
                                 <t t-if="current_company == 'Bamacom'">
                                     <p>Requested By:</p>
+                                    <p>
+                                        <br/>
+                                        <strong><span t-field="o.requested_by"/></strong>
+                                        <br />
+                                        <span t-field="o.requested_by_designation"/>
+                                    </p>
                                 </t>
                                 <t t-else="">
                                     <p>Received By:</p>
+                                    <p>
+                                        <br />
+                                        <strong>___________________</strong>
+                                        <br />
+                                    </p>
                                 </t>
-                                <p>
-                                    <br />
-                                    <strong>___________________</strong>
-                                    <br />
-                                </p>
                             </td>
                         </tr>
                     </tbody>
