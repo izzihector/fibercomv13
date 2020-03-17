@@ -38,9 +38,9 @@ class ContactExt(models.Model):
 
     def check_company_name(self, company_id):
         if company_id:
-            if 'Fibercom' in company_id.name or 'fibercom' in company_id.name:
+            if 'Fibercom' in company_id.name or 'fibercom' in str(company_id.name).lower() or 'FiberCom' in company_id.name:
                 return 'Fibercom'
-            if 'Bamacom' in company_id.name or 'bamacom' in company_id.name:
+            if 'Bamacom' in company_id.name or 'bamacom' in str(company_id.name).lower():
                 return 'Bamacom'
         else:
             return ''
