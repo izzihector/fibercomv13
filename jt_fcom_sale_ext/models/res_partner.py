@@ -35,3 +35,12 @@ class ContactExt(models.Model):
         'account.analytic.account', string="Analytic account")
     analytic_tags = fields.Many2many(
         'account.analytic.tag', string='Analytic Tags')
+
+    def check_company_name(self, company_id):
+        if company_id:
+            if 'Fibercom' in company_id.name or 'fibercom' in str(company_id.name).lower() or 'FiberCom' in company_id.name:
+                return 'Fibercom'
+            if 'Bamacom' in company_id.name or 'bamacom' in str(company_id.name).lower():
+                return 'Bamacom'
+        else:
+            return ''

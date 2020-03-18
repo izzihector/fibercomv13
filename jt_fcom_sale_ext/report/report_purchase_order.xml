@@ -5,7 +5,20 @@
             <div class="footer o_boxed_footer">
                 <div class="text-center">
                     <p style="text-align: center;">
-                        <em>Unit 2006A, West Tower, Philippine Stock Exchange Centre,</em>
+                        <t t-if="not company">
+                            <!-- Multicompany -->
+                            <t t-if="company_id">
+                                <t t-set="company" t-value="company_id"/>
+                            </t>
+                            <t t-elif="o and 'company_id' in o">
+                                <t t-set="company" t-value="o.company_id.sudo()"/>
+                            </t>
+                            <t t-else="else">
+                                <t t-set="company" t-value="res_company"/>
+                            </t>
+                        </t>
+                        <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
+                        <em><t t-if="current_company == 'Fibercom'"> Unit 2006A, </t> <t t-if="current_company == 'Bamacom'"> Unit 2006B, </t> West Tower, Philippine Stock Exchange Centre,</em>
                         <br />
                         <em>Exchange Road, Ortigas Center, Pasig City</em>
                         <br />
@@ -184,12 +197,38 @@
                             </td>
                             <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
                                 <p></p>
-                                <p>Received By:</p>
-                                <p>
-                                    <br />
-                                    <strong>___________________</strong>
-                                    <br />
-                                </p>
+
+                                <t t-if="not company">
+                                    <!-- Multicompany -->
+                                    <t t-if="company_id">
+                                        <t t-set="company" t-value="company_id"/>
+                                    </t>
+                                    <t t-elif="o and 'company_id' in o">
+                                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                                    </t>
+                                    <t t-else="else">
+                                        <t t-set="company" t-value="res_company"/>
+                                    </t>
+                                </t>
+
+                                <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
+                                <t t-if="current_company == 'Bamacom'">
+                                    <p>Requested By:</p>
+                                    <p>
+                                        <br/>
+                                        <strong><span t-field="o.requested_by"/></strong>
+                                        <br />
+                                        <span t-field="o.requested_by_designation"/>
+                                    </p>
+                                </t>
+                                <t t-else="">
+                                    <p>Received By:</p>
+                                    <p>
+                                        <br />
+                                        <strong>___________________</strong>
+                                        <br />
+                                    </p>
+                                </t>
                             </td>
                         </tr>
                     </tbody>
@@ -366,22 +405,41 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
-                                        <t t-if="o.noted_by">Noted By:<br />
-                                    <br />
-                                    <br />
-                                    <span t-field="o.noted_by"/></t></td>
-                                    <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none"><p></p>
-                                        <t t-if="o.requested_by">
-                                            <p>Requested by:</p>
-                                            <p>
-                                                <br/>
-                                                <strong><span t-field="o.requested_by"/></strong>
-                                                <br />
-                                                <span t-field="o.requested_by_designation"/>
-                                            </p>
+                                    <t t-if="not company">
+                                        <!-- Multicompany -->
+                                        <t t-if="company_id">
+                                            <t t-set="company" t-value="company_id"/>
                                         </t>
-                                    </td>
+                                        <t t-elif="o and 'company_id' in o">
+                                            <t t-set="company" t-value="o.company_id.sudo()"/>
+                                        </t>
+                                        <t t-else="else">
+                                            <t t-set="company" t-value="res_company"/>
+                                        </t>
+                                    </t>
+                                    <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
+                                    <t t-if="current_company == 'Fibercom'">
+                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                            <t t-if="o.noted_by">Noted By:<br />
+                                                <br />
+                                                <br />
+                                                <span t-field="o.noted_by"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t t-if="current_company == 'Fibercom'">
+                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none"><p></p>
+                                            <t t-if="o.requested_by">
+                                                <p>Requested by:</p>
+                                                <p>
+                                                    <br/>
+                                                    <strong><span t-field="o.requested_by"/></strong>
+                                                    <br />
+                                                    <span t-field="o.requested_by_designation"/>
+                                                </p>
+                                            </t>
+                                        </td>
+                                    </t>
                                     <p></p>
                             </tr>
                         </tbody>
