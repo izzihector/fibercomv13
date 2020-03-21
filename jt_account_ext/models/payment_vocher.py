@@ -21,6 +21,25 @@
 #
 ##############################################################################
 
-from . import res_users
-from . import stock_location
-from . import stock
+from odoo import api, fields, models
+from datetime import datetime, date
+
+
+class AccountPayment(models.Model):
+    _inherit = "account.payment"
+
+    cv_date = fields.Date(string='CV date', default=fields.Date.today())
+    prepared_by = fields.Char(string="Prepared By")
+    verified_by = fields.Char(string="Verified By")
+    approved_by = fields.Char(string="Approved By")
+    recieved_by = fields.Char(string="Received By")
+    invoices_ref = fields.Text(
+        string='Invoices Ref', store=True, compute="_compute_invoices_ref")
+
+    @api.depends('reconciled_invoice_ids')
+    def _compute_invoices_ref(self):
+        for payment in self:
+            payment.invoices_ref = ','.join(payment.reconciled_invoice_ids.mapped('name'))
+
+    def get_currency_word(self):
+        return self.currency_id.amount_to_text(self.amount)
