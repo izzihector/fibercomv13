@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_checkout_template">
+            <style type="text/css">
+                .table_custom td{
+                    display: inline-grid;
+                }
+                .table_child td{
+                    border:none;
+                }
+            </style>
+            <t t-set="company" t-value="doc.company_id.sudo()"/>
+            <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
+           
+            <table class="table-condensed table-bordered table_custom" style="height:100%;width:100%;">
+                <thead>
+                    <tr>
+                        <td colspan="6" class="text-left">
+                            <b><br/><span style="font-size:20px;" t-field="doc.company_id"/></b><br/><br/>
+                            <span style="font-size: 15px;"><t t-if="current_company == 'Fibercom'"> Unit 2006A, </t> <t t-if="current_company == 'Bamacom'"> Unit 2006B, </t> West Tower, Philippine Stock Exchange Centre, <br/>
+                            Exchange Road, Ortigas Center, Pasig City, Philippines</span>
+                        </td>
+                        <td class="text-right" colspan="2" style="text-align:right;font-size:20;font-weight:bold;vertical-align:bottom;"><span><span style="font-size: 28px;">C</span>HECK <span style="font-size: 28px;">V</span>OUCHER</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+                    <tr style="width:100%;">
+                        <td style="text-align: left; width: 10%;">
+                            <b>Payee </b>
+                        </td>
+                        <td colspan="3" style="text-align: left; width: 40%;">
+                            <span t-field="doc.partner_id"/>
+                        </td>
+                        <td style="text-align: right; width: 20%;">
+                            <b>CV date </b>
+                        </td>
+                        <td style="text-indent: 8px; text-align: left; width: 10%;">
+                            <span t-field="doc.cv_date"/>
+                        </td>
+                        <td style="text-align: right; width: 10%;">
+                            <b>CV No. </b>
+                        </td>
+                        <td style="text-indent: 8px; text-align: left; width: 10%;">
+                            05555
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+                    <tr style="width:100%;">
+                        <td style="text-align: left; width: 10%;">
+                            <b>Bank </b>
+                        </td>
+                        <td colspan="3" style="text-align: left; width: 40%;">
+                            <span t-field="doc.journal_id.bank_id"/>
+                        </td>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Check Date </b>
+                        </td>
+                        <td style="text-indent: 8px; text-align: left; width: 10%;" >
+                            <span t-field="doc.payment_date"/>
+                        </td>
+                        <td style="text-align: right; width: 10%;">
+                            <b>Check No. </b>
+                        </td>
+                        <td style="text-indent: 8px; text-align: left; width: 10%;">
+                            <span t-field="doc.check_number"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="8"><b>Particulars:</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+
+                    <tr rowspan="3">
+                        <td colspan="4" style="text-align:center;vertical-align:top;">
+                            <span t-field="doc.communication"/>
+                        </td>
+                        <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
+                            <span style="font-size:20px;" t-field="doc.amount"/><br/>
+                            <t t-set="amount_to_text" t-value="doc.get_currency_word()"/>
+                            <b><span style="font-size:14px;"><t t-esc="amount_to_text"/> Only</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th style="text-align:left;border-right:1px solid #383636;" colspan="4">
+                            <table class="table_child table-condensed table-bordered" style="width:100%;border:none;">
+                                <tr>
+                                    <th colspan="5" style="text-align:left;">Invoice / Account References</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <hr style="border: 1px double #383636;"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:12px;">
+                                    <th style="text-align:left;">Invoice Ref</th>
+                                    <th style="text-align:left;">Account Ref</th>
+                                    <th style="text-align:right;">Gross</th>
+                                    <th style="text-align:right;">EWT</th>
+                                    <th style="text-align:right;">Net</th>
+                                </tr>
+                                <t t-set="untaxed" t-value="0"/>
+                                <t t-set="tax" t-value="0"/>
+                                <t t-set="total" t-value="0"/>
+                                <t t-foreach="doc.reconciled_invoice_ids" t-as="move">
+                                    <t t-set="untaxed" t-value="untaxed + move.amount_untaxed"/>
+                                    <t t-set="tax" t-value="tax + move.amount_tax"/>
+                                    <t t-set="total" t-value="total + move.amount_total"/>
+                                    <tr style="font-size:12px;">
+                                        <td><span t-field="move.name"/></td>
+                                        <td>---------<!-- <span t-field="move.account_id"/> --></td>
+                                        <td style="text-align:right;"><span t-field="move.amount_untaxed"/></td>
+                                        <td style="text-align:right;"><span t-field="move.amount_tax"/></td>
+                                        <td style="text-align:right;"><span t-field="move.amount_total"/></td>
+                                    </tr>
+                                </t>
+                                <tr rowspan="5">
+                                    <td colspan="5"/>
+                                </tr>
+                                <tr rowspan="5">
+                                    <td colspan="5">
+                                        <hr style="border: 1px double #383636;"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:12px;">
+                                    <th style="text-align:left;">Totals</th>
+                                    <th style="text-align:left;"></th>
+                                    <th style="text-align:right;">
+                                        <t t-esc="untaxed"/>
+                                    </th>
+                                    <th style="text-align:right;">
+                                        <t t-esc="tax"/>
+                                    </th>
+                                    <th style="text-align:right;">
+                                        <t t-esc="total"/>
+                                    </th>
+                                </tr>
+                            </table>
+                        </th>
+                        <th style="vertical-align:top;text-align:left;" colspan="4">
+                            <table style="width:100%;border:none;" class="table_child table-condensed table-bordered">
+                                <tr>
+                                    <th style="text-align:left;" colspan="3">Accounts Distribution</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr style="border: 1px double #383636;"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:12px;">
+                                    <th style="text-align:left;">Account</th>
+                                    <th style="text-align:left;">Description/Subsidiary</th>
+                                    <th style="text-align:right;">Amount</th>
+                                </tr>
+                                <t t-foreach="doc.move_line_ids" t-as="line">
+                                    <tr style="font-size:12px;">
+                                        <td><span t-field="line.account_id"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <td style="text-align:right;">
+                                            <t t-if="line.credit > 0">
+                                                -<span t-field="line.credit"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.debit"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+
+                    <tr rowspan="3" style="font-size:12px;">
+                        <td style="text-align:center;vertical-align:top;">
+                            <b>Prepared By:</b> <br/><br/>
+                            <span t-field="doc.prepared_by"/>
+                        </td>
+                        <td colspan="2" style="text-align:center;vertical-align:top;">
+                            <b>Verified By:</b> <br/><br/>
+                            <span t-field="doc.verified_by"/>
+                        </td>
+                        <td colspan="2" style="text-align:center;vertical-align:top;">
+                            <b>Approved By:</b> <br/><br/>
+                            <span t-field="doc.approved_by"/>
+                        </td>
+                        <td colspan="2" style="text-align:left; border-left:1px solid ;#383636;vertical-align:top;padding-left:10px;">
+                            <b>Received payment By:</b> <br/><br/>
+                            <span t-field="doc.recieved_by"/><br/>
+                            (Name/ Signature/ Date)
+                        </td>
+                        <td colspan="1" style="text-align:center;vertical-align:top;">
+                            <b>Receipt No:</b> <br/><br/>
+                            <span t-field="doc.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </template>
+
+        <template id="report_template_report_voucher">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="jt_account_ext.report_checkout_template" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="checkout_paperformat" model="report.paperformat">
+            <field name="name">Check Voucher</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">55</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <report
+            id="action_check_voucher"
+            model="account.payment"
+            string="Check Voucher"
+            report_type="qweb-pdf"
+            name="jt_account_ext.report_template_report_voucher"
+            file="jt_account_ext.report_template_report_voucher"
+            paperformat="checkout_paperformat"
+            />
+    </data>
+</odoo>
