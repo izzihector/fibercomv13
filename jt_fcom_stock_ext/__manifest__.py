@@ -33,6 +33,7 @@
     'data': [
         'security/security.xml',
         'data/data.xml',
+        'views/assets.xml',
         'views/res_users_view.xml',
         'views/stock_view.xml',
     ],
