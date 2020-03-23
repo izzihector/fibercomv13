@@ -28,6 +28,7 @@ from datetime import datetime, date
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
+    cv_number = fields.Integer(string='CV Number')
     cv_date = fields.Date(string='CV date', default=fields.Date.today())
     prepared_by = fields.Char(string="Prepared By")
     verified_by = fields.Char(string="Verified By")
@@ -36,10 +37,20 @@ class AccountPayment(models.Model):
     invoices_ref = fields.Text(
         string='Invoices Ref', store=True, compute="_compute_invoices_ref")
 
-    @api.depends('reconciled_invoice_ids')
-    def _compute_invoices_ref(self):
-        for payment in self:
-            payment.invoices_ref = ','.join(payment.reconciled_invoice_ids.mapped('name'))
-
     def get_currency_word(self):
         return self.currency_id.amount_to_text(self.amount)
+
+    payment_invoice_ids = fields.Many2many('account.move', 'account_move_reference_rel', 'payment_id', 'move_id', string="Invoices",
+                                           domain="[('partner_id','=',partner_id),('type','=','in_invoice'),('state', '=', 'posted'),('invoice_payment_state','!=','paid')]")
+    account_journal_ids = fields.Many2many(
+        'account.move.line', 'account_move_line_reference_rel', 'payment_id', 'line_id', string="Journal Items")
+    invoices_ref = fields.Text(
+        string='Invoices Ref', store=True, compute="_compute_invoices_ref")
+
+    @api.depends('payment_invoice_ids')
+    def _compute_invoices_ref(self):
+        for payment in self:
+            payment.account_journal_ids = False
+            line_ids = payment.payment_invoice_ids.mapped('line_ids').ids
+            payment.account_journal_ids = [(6, 0, line_ids)]
+            payment.invoices_ref = ','.join(payment.payment_invoice_ids.mapped('name'))

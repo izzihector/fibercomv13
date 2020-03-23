@@ -46,7 +46,7 @@
                             <b>CV No. </b>
                         </td>
                         <td style="text-indent: 8px; text-align: left; width: 10%;">
-                            05555
+                            <span t-field="doc.cv_number"/>
                         </td>
                     </tr>
                     <tr>
@@ -126,7 +126,7 @@
                                 <t t-set="untaxed" t-value="0"/>
                                 <t t-set="tax" t-value="0"/>
                                 <t t-set="total" t-value="0"/>
-                                <t t-foreach="doc.reconciled_invoice_ids" t-as="move">
+                                <t t-foreach="doc.payment_invoice_ids" t-as="move">
                                     <t t-set="untaxed" t-value="untaxed + move.amount_untaxed"/>
                                     <t t-set="tax" t-value="tax + move.amount_tax"/>
                                     <t t-set="total" t-value="total + move.amount_total"/>
@@ -176,7 +176,7 @@
                                     <th style="text-align:left;">Description/Subsidiary</th>
                                     <th style="text-align:right;">Amount</th>
                                 </tr>
-                                <t t-foreach="doc.move_line_ids" t-as="line">
+                                <t t-foreach="doc.account_journal_ids" t-as="line">
                                     <tr style="font-size:12px;">
                                         <td><span t-field="line.account_id"/></td>
                                         <td><span t-field="line.name"/></td>
