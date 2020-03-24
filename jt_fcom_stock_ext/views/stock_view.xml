@@ -75,14 +75,10 @@
             <field name="model">stock.move.line</field>
             <field name="inherit_id" ref="stock.view_move_line_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='reference']" position="after">
-                    <field name="delivery_partner_id" string='Delivery Address'/>
-                </xpath>
-                <xpath expr="//field[@name='location_id']" position="after">
-                    <field name="subcon" string='Subcon'/>
-                </xpath>
                 <xpath expr="//field[@name='location_dest_id']" position="after">
                     <field name="receipt_partner_id" string='Recieve From'/>
+                    <field name="delivery_partner_id" string='Delivery Address'/>
+                    <field name="subcon" string='Subcon'/>
                 </xpath>
             </field>
         </record>
