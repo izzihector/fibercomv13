@@ -20,7 +20,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import fields, models, api
 
-from . import res_users
-from . import stock_location
-from . import stock
+
+class StockMoveLine(models.Model):
+
+    _inherit = 'stock.move.line'
+
+    delivery_partner_id = fields.Many2one('res.partner', related='picking_id.partner_id', string="Delivery Address", store=True)
+    receipt_partner_id = fields.Many2one('res.partner', related='picking_id.partner_id', string="Recieve From", store=True)
+    subcon = fields.Many2one('res.partner', related='picking_id.subcon', string="Subcon", store=True)

@@ -13,5 +13,35 @@
                     action = records.fill_warehouse_ids()
             </field>
         </record>
+
+        <record id="filter_outgoing_product_delivery" model="ir.filters">
+            <field name="name">Outgoing Product > Delivery Date</field>
+            <field name="model_id">stock.move.line</field>
+            <field name="context">{'search_default_outgoing': 1, 'group_by': ['product_id', 'delivery_partner_id']}</field>
+        </record>
+
+        <record id="filter_outgoing_product_subcon" model="ir.filters">
+            <field name="name">Outgoing Product > Subcon</field>
+            <field name="model_id">stock.move.line</field>
+            <field name="context">{'search_default_outgoing': 1, 'group_by': ['product_id', 'subcon']}</field>
+        </record>
+
+        <record id="filter_dd_subcon_og_product" model="ir.filters">
+            <field name="name">Delivery Date > Subcon > Outgoing Product</field>
+            <field name="model_id">stock.move.line</field>
+            <field name="context">{'search_default_outgoing': 1, 'group_by': ['delivery_partner_id', 'subcon', 'product_id']}</field>
+        </record>
+
+        <record id="filter_incoming_product_received_from" model="ir.filters">
+            <field name="name">Incoming Product > Received From</field>
+            <field name="model_id">stock.move.line</field>
+            <field name="context">{'search_default_incoming': 1, 'group_by': ['product_id', 'receipt_partner_id']}</field>
+        </record>
+
+        <record id="filter_incoming_product_subcon_received_from" model="ir.filters">
+            <field name="name">Incoming Product > Subcon > Received From</field>
+            <field name="model_id">stock.move.line</field>
+            <field name="context">{'search_default_incoming': 1, 'group_by': ['receipt_partner_id', 'subcon', 'product_id']}</field>
+        </record>
     </data>
 </odoo>
