@@ -81,16 +81,8 @@
                     </tr>
 
                     <tr>
-                        <td colspan="8"><b>Particulars:</b></td>
-                    </tr>
-                    <tr>
-                        <td colspan="8">
-                            <hr style="border: 1px double #383636;"/>
-                        </td>
-                    </tr>
-
-                    <tr rowspan="3">
-                        <td colspan="4" style="text-align:center;vertical-align:top;">
+                        <td style="text-align: left; width: 10%;"><b>Particulars:</b></td>
+                        <td colspan="3" style="text-align: left; width: 40%;">
                             <span t-field="doc.communication"/>
                         </td>
                         <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
@@ -104,6 +96,22 @@
                             <hr style="border: 1px double #383636;"/>
                         </td>
                     </tr>
+
+                    <!-- <tr rowspan="3">
+                        <td colspan="4" style="text-align:center;vertical-align:top;">
+                            <span t-field="doc.communication"/>
+                        </td>
+                        <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
+                            <span style="font-size:20px;" t-field="doc.amount"/><br/>
+                            <t t-set="amount_to_text" t-value="doc.get_currency_word()"/>
+                            <b><span style="font-size:14px;"><t t-esc="amount_to_text"/> Only</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <hr style="border: 1px double #383636;"/>
+                        </td>
+                    </tr> -->
 
                     <tr>
                         <th style="text-align:left;border-right:1px solid #383636;" colspan="4">
@@ -146,7 +154,7 @@
                                         <hr style="border: 1px double #383636;"/>
                                     </td>
                                 </tr>
-                                <tr style="font-size:12px;">
+                                <tr style="font-size:20px;">
                                     <th style="text-align:left;">Totals</th>
                                     <th style="text-align:left;"></th>
                                     <th style="text-align:right;">
@@ -199,26 +207,26 @@
                         </td>
                     </tr>
 
-                    <tr rowspan="3" style="font-size:12px;">
+                    <tr rowspan="3" style="font-size:17px;">
                         <td style="text-align:center;vertical-align:top;">
-                            <b>Prepared By:</b> <br/><br/>
+                            <b>Prepared By:</b> <br/><br/><br/>
                             <span t-field="doc.prepared_by"/>
                         </td>
                         <td colspan="2" style="text-align:center;vertical-align:top;">
-                            <b>Verified By:</b> <br/><br/>
+                            <b>Verified By:</b> <br/><br/><br/>
                             <span t-field="doc.verified_by"/>
                         </td>
                         <td colspan="2" style="text-align:center;vertical-align:top;">
-                            <b>Approved By:</b> <br/><br/>
+                            <b>Approved By:</b> <br/><br/><br/>
                             <span t-field="doc.approved_by"/>
                         </td>
                         <td colspan="2" style="text-align:left; border-left:1px solid ;#383636;vertical-align:top;padding-left:10px;">
-                            <b>Received payment By:</b> <br/><br/>
+                            <b>Received payment By:</b> <br/><br/><br/>
                             <span t-field="doc.recieved_by"/><br/>
                             (Name/ Signature/ Date)
                         </td>
                         <td colspan="1" style="text-align:center;vertical-align:top;">
-                            <b>Receipt No:</b> <br/><br/>
+                            <b>Receipt No:</b> <br/><br/><br/>
                             <span t-field="doc.name"/>
                         </td>
                     </tr>

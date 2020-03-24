@@ -34,6 +34,9 @@
                     </page>
                 </notebook>
             </xpath>
+            <xpath expr="//field[@name='payment_method_id']" position="attributes">
+                <attribute name="domain">[('payment_type', '=', payment_type)]</attribute>
+            </xpath>
         </field>
     </record>
 
