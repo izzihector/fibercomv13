@@ -15,7 +15,7 @@ class IBASSale(models.Model):
     ibas_order_type = fields.Selection([
         ('MRF', 'MRF'),
         ('SALE', 'Sale'),
-    ], string='Docment Type', default='MRF')
+    ], string='Document Type', default='MRF')
 
     @api.model
     def create(self, vals):
