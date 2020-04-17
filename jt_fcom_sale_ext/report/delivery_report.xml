@@ -4,6 +4,7 @@
 	 	<xpath expr="//table[@name='stock_move_line_table']" position="after">
 	 		<div class="pull-right">
             <strong class="mr16"><t t-if="o.issued_by"> <span> Issued by: <u><t t-esc="o.issued_by"/></u></span><br/></t>
+                                <span> Signature by:______________________</span><br/>
                                 <span> Recevied by:______________________</span><br/>
                                 <span> Date:______________________________</span>
             </strong>
