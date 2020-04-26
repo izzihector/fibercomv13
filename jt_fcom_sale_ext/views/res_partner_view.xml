@@ -8,21 +8,25 @@
 	        <field name="arch" type="xml">
                 <xpath expr="//field[@name='category_id']" position="after">
                     <field name="project_manager"/>
-                    <field name="project_code"/> 
+                    <field name="project_code" attrs="{'required': [('is_project_site','=', True)]}"/> 
                     <field name="division_head"/>
                     <field name="project_area"/>
-                    <field name="analytic_account"/>
-                    <field name="analytic_tags" widget="many2many_tags" placeholder="Tags..."/>
+                    <field name="analytic_account" attrs="{'required': [('is_project_site','=', True)]}"/>
+                    <field name="analytic_tags" widget="many2many_tags" placeholder="Tags..." attrs="{'required': [('is_project_site','=', True)]}"/>
                 </xpath>
 	        	<xpath expr="//sheet/group/group[2]/field[@name='mobile']" position="after">
 	        		<field name="project_manager"/>
-	        		<field name="project_code"/> 
+	        		<field name="project_code" /> 
 	        		<field name="division_head"/>
 	        		<field name="project_area"/>
-	        		<field name="analytic_tags" widget="many2many_tags" placeholder="Tags..."/>
+	        		<field name="analytic_tags" widget="many2many_tags" placeholder="Tags..." />
 	        	</xpath>
 	        	<xpath expr="//sheet/group/group[1]/field[@name='comment']" position="after">
 	        		<field name="analytic_account"/>
+	        	</xpath>
+				
+				<xpath expr="//field[@name='vat']" position="after">
+	        		<field name="is_project_site"/>
 	        	</xpath>
 	        </field>
 	    </record>

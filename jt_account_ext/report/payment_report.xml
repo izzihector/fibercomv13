@@ -13,15 +13,15 @@
             <t t-set="company" t-value="doc.company_id.sudo()"/>
             <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
            
-            <table class="table-condensed table-bordered table_custom" style="height:100%;width:100%;">
+            <table class="table-condensed table-bordered table_custom" style="width:100%; font-size: 12px;">
                 <thead>
                     <tr>
                         <td colspan="6" class="text-left">
                             <b><br/><span style="font-size:20px;" t-field="doc.company_id"/></b><br/><br/>
-                            <span style="font-size: 15px;"><t t-if="current_company == 'Fibercom'"> Unit 2006A, </t> <t t-if="current_company == 'Bamacom'"> Unit 2006B, </t> West Tower, Philippine Stock Exchange Centre, <br/>
+                            <span style="font-size: 12px;"><t t-if="current_company == 'Fibercom'"> Unit 2006A, </t> <t t-if="current_company == 'Bamacom'"> Unit 2006B, </t> West Tower, Philippine Stock Exchange Centre, <br/>
                             Exchange Road, Ortigas Center, Pasig City, Philippines</span>
                         </td>
-                        <td class="text-right" colspan="2" style="text-align:right;font-size:20;font-weight:bold;vertical-align:bottom;"><span><span style="font-size: 28px;">C</span>HECK <span style="font-size: 28px;">V</span>OUCHER</span></td>
+                        <td class="text-right" colspan="2" style="text-align:right;font-size:15;font-weight:bold;vertical-align:bottom;"><span><span style="font-size: 20px;">C</span>HECK <span style="font-size: 20px;">V</span>OUCHER</span></td>
                     </tr>
                     <tr>
                         <td colspan="8">
@@ -59,7 +59,7 @@
                             <b>Bank </b>
                         </td>
                         <td colspan="3" style="text-align: left; width: 40%;">
-                            <span t-field="doc.journal_id.bank_id"/>
+                            <span t-field="doc.journal_id.name"/>
                         </td>
                         <td style="text-align: right; width: 20%;">
                             <b>Check Date </b>
@@ -86,9 +86,9 @@
                             <span t-field="doc.communication"/>
                         </td>
                         <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
-                            <span style="font-size:20px;" t-field="doc.amount"/><br/>
+                            <span style="font-size:15px;" t-field="doc.amount"/><br/>
                             <t t-set="amount_to_text" t-value="doc.get_currency_word()"/>
-                            <b><span style="font-size:14px;"><t t-esc="amount_to_text"/> Only</span></b>
+                            <b><span style="font-size:12px;"><t t-esc="amount_to_text"/> Only</span></b>
                         </td>
                     </tr>
                     <tr>
@@ -117,14 +117,14 @@
                         <th style="text-align:left;border-right:1px solid #383636;" colspan="4">
                             <table class="table_child table-condensed table-bordered" style="width:100%;border:none;">
                                 <tr>
-                                    <th colspan="5" style="text-align:left;">Invoice / Account References</th>
+                                    <th colspan="5" style="text-align:left; font-size:13px;">Invoice / Account References</th>
                                 </tr>
                                 <tr>
                                     <td colspan="5">
                                         <hr style="border: 1px double #383636;"/>
                                     </td>
                                 </tr>
-                                <tr style="font-size:12px;">
+                                <tr style="font-size:10px;">
                                     <th style="text-align:left;">Invoice Ref</th>
                                     <th style="text-align:left;">Account Ref</th>
                                     <th style="text-align:right;">Gross</th>
@@ -154,7 +154,7 @@
                                         <hr style="border: 1px double #383636;"/>
                                     </td>
                                 </tr>
-                                <tr style="font-size:20px;">
+                                <tr style="font-size:15px;">
                                     <th style="text-align:left;">Totals</th>
                                     <th style="text-align:left;"></th>
                                     <th style="text-align:right;">
@@ -172,14 +172,14 @@
                         <th style="vertical-align:top;text-align:left;" colspan="4">
                             <table style="width:100%;border:none;" class="table_child table-condensed table-bordered">
                                 <tr>
-                                    <th style="text-align:left;" colspan="3">Accounts Distribution</th>
+                                    <th style="text-align:left; font-size:13px;" colspan="3">Accounts Distribution</th>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         <hr style="border: 1px double #383636;"/>
                                     </td>
                                 </tr>
-                                <tr style="font-size:12px;">
+                                <tr style="font-size:10px;">
                                     <th style="text-align:left;">Account</th>
                                     <th style="text-align:left;">Description/Subsidiary</th>
                                     <th style="text-align:right;">Amount</th>
@@ -207,7 +207,7 @@
                         </td>
                     </tr>
 
-                    <tr rowspan="3" style="font-size:17px;">
+                    <tr rowspan="3" style="font-size:13px;">
                         <td colspan="8">
                             <div style="width:100%;">
                                 <div style="float:left;width:19%;">
@@ -277,14 +277,14 @@
         <record id="checkout_paperformat" model="report.paperformat">
             <field name="name">Check Voucher</field>
             <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">5</field>
-            <field name="margin_bottom">5</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
+            <field name="format">custom</field>
+            <field name="page_height">139</field>
+            <field name="page_width">216</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">55</field>
             <field name="dpi">80</field>

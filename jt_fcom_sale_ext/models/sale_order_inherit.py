@@ -37,7 +37,8 @@ class SaleOrder(models.Model):
             if user and user.has_group('jt_fcom_sale_ext.group_fcom_sale_engineer'):
                 order.group_engineer = True
 
-    group_engineer = fields.Boolean(string='Is Engineer?', compute="_compute_group_engineer")
+    group_engineer = fields.Boolean(
+        string='Is Engineer?', compute="_compute_group_engineer")
 
     @api.onchange('ibas_order_type')
     def _onchange_document_type(self):
@@ -96,6 +97,13 @@ class StockPicking(models.Model):
     approved_by = fields.Char(
         related="sale_id.approved_by", string="Approved by")
     issued_by = fields.Char(string='Issued By')
+
+    ibas_mrf_sale_order_status = fields.Selection([
+        ('ready', 'Ready for Release'),
+        ('partial', 'Partially Withdrawn'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled'),
+    ], string='MRF Status', related='sale_id.ibas_mrf_sale_order_status')
 
     @api.model
     def create(self, vals):
