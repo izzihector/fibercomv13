@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale', 'stock', 'purchase'],
+    'depends': ['base', 'sale', 'stock', 'purchase'],
 
     # always loaded
     'data': [
@@ -28,10 +28,12 @@
         'views/views.xml',
         'views/templates.xml',
         'views/stock.xml',
+        'views/action_server.xml',
         'report/delivery_slip.xml',
         'report/purchase_order.xml',
         'data/ir_sequence_data.xml',
-        'views/sale_order.xml'
+        'views/sale_order.xml',
+        'views/account_move_views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

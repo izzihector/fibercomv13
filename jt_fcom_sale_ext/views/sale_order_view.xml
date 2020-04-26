@@ -40,6 +40,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='approved_by']" position="after">
                 <field name="issued_by"/>
+                <field name='ibas_mrf_sale_order_status'/>
             </xpath>
         </field>
     </record>

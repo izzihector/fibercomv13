@@ -36,6 +36,8 @@ class ContactExt(models.Model):
     analytic_tags = fields.Many2many(
         'account.analytic.tag', string='Analytic Tags')
 
+    is_project_site = fields.Boolean(' Is this a Project Site?')
+
     def check_company_name(self, company_id):
         if company_id:
             if 'Fibercom' in company_id.name or 'fibercom' in str(company_id.name).lower() or 'FiberCom' in company_id.name:
@@ -44,3 +46,4 @@ class ContactExt(models.Model):
                 return 'Bamacom'
         else:
             return ''
+

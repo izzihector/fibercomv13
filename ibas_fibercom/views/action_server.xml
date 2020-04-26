@@ -1,0 +1,17 @@
+<odoo>
+<data>
+    <record model="ir.actions.server" id="unreserve">
+        <field name="name">Unreserve</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="sequence">1</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                if record.state == 'assigned': 
+                    action = record.do_unreserve()
+        </field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+    </record>
+</data>
+</odoo>

@@ -6,6 +6,7 @@ from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
+
 class IBASStockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -14,4 +15,3 @@ class IBASStockPicking(models.Model):
     approved_by = fields.Char(string='Approved By')
     project_code = fields.Char(string='Project Code')
     project_area = fields.Char(string='Project Area')
-    
