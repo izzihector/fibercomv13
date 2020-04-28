@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button string="Fix Unreserved Quantity" type="object" name="button_fix_unreserved_qty"/>
+                <button string="Fix Unreserved Quantity" class="btn-danger" type="object" name="button_fix_unreserved_qty" groups="base.group_no_one"/>
                 <button string="Fix Available Zero" class="btn-danger" type="object" name="button_fix_available_zero" groups="base.group_no_one"/>
             </xpath>
         </field>

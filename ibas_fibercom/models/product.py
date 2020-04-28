@@ -11,7 +11,6 @@ class ProductTemplate(models.Model):
 	_inherit = 'product.template'
 
 	def button_fix_available_zero(self):
-		_logger.info("TEST")
 		move_lines = self.env['stock.move.line'].sudo().search([
 			('product_id.type', '=', 'product'),
 			('product_uom_qty', '=', 0),
@@ -98,7 +97,6 @@ class ProductProduct(models.Model):
 	_inherit = 'product.product'
 
 	def button_fix_available_zero(self):
-		_logger.info("TEST")
 		# for product in self.product_variant_ids:
 		move_lines = self.env['stock.move.line'].sudo().search([
 			('product_id.type', '=', 'product'),
