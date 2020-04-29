@@ -8,15 +8,15 @@
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
                     <field name="ibas_order_type" required="1"/>
                     <field name="ibas_mrf_quotation_status" required="1" attrs="{'invisible': [('state', 'in', ['sale','done'])]}"/>
-                    <field name="ibas_mrf_sale_order_status" required="0" readonly="1" attrs="{'invisible': [('state', 'in', ['draft','sent'])]}"/>
+                    <field name="ibas_mrf_sale_order_status" required="0" readonly="1"/>
                 </xpath>
 
                  <xpath expr="//button[@name='action_confirm'][1]" position="replace">
-                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': ['|',('state', 'not in', ['sent']),('ibas_mrf_quotation_status','!=','waiting')]}"/>
+                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['sent'])]}"/>
                 </xpath>
 
                 <xpath expr="//button[@name='action_confirm'][2]" position="replace">
-                    <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': ['|',('state', 'not in', ['draft']),('ibas_mrf_quotation_status','!=','waiting')]}"/>
+                    <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
                 </xpath>
 
                 <xpath expr="//field[@name='name']" position="replace">
@@ -43,7 +43,7 @@
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="ibas_mrf_sale_order_status" attrs="{'invisible': [('state', 'in', ['draft','sent'])]}"/>
+                <field name="ibas_mrf_sale_order_status"/>
             </xpath>
         </field>
     </record>

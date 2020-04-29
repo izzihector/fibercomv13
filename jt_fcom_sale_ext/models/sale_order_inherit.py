@@ -90,29 +90,99 @@ class StockPicking(models.Model):
 
     _inherit = 'stock.picking'
 
-    project_code = fields.Char(string='Project Code')
-    project_area = fields.Char(string='Project Area')
+    project_code = fields.Char(
+        string='Project Code', related='partner_id.project_code')
+    project_area = fields.Char(
+        string='Project Area', related='partner_id.project_area')
     requested_by = fields.Char(
         related="sale_id.requested_by", string="Requested by")
     approved_by = fields.Char(
         related="sale_id.approved_by", string="Approved by")
     issued_by = fields.Char(string='Issued By')
 
+    ibas_mrf_waiting_status = fields.Selection([
+        ('approved', 'Approved By Customer'),
+        ('permits', 'With Permits'),
+        ('waiting', 'Waiting for Materials'),
+    ], string='Waiting Status', default='approved')
+
     ibas_mrf_sale_order_status = fields.Selection([
         ('ready', 'Ready for Release'),
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', related='sale_id.ibas_mrf_sale_order_status')
+    ], string='MRF Status', compute='_compute_mrf_status')
 
-    @api.model
-    def create(self, vals):
-        res = super(StockPicking, self).create(vals)
-        if res.partner_id and res.partner_id.project_code:
-            res.project_code = res.partner_id.project_code
-        if res.partner_id and res.partner_id.project_area:
-            res.project_area = res.partner_id.project_area
-        return res
+    @api.depends('sale_id')
+    def _compute_mrf_status(self):
+        stock_picking = self.env['stock.picking']
+        for rec in self:
+            picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
+                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
+
+            picking_done = stock_picking.search(
+                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
+
+            picking_ready = stock_picking.search(
+                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'assigned')])
+
+            picking_cancel = stock_picking.search(
+                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'cancel')])
+
+            if picking_partial:
+                rec.ibas_mrf_sale_order_status = 'partial'
+
+            elif picking_ready:
+                rec.ibas_mrf_sale_order_status = 'ready'
+
+            elif picking_done:
+                rec.ibas_mrf_sale_order_status = 'done'
+
+            elif picking_cancel:
+                rec.ibas_mrf_sale_order_status = 'cancel'
+
+            else:
+                rec.ibas_mrf_sale_order_status = None
+
+    @api.depends('ibas_order_type')
+    def _compute_so_status(self):
+        stock_picking = self.env['stock.picking']
+        for rec in self:
+            picking_partial = stock_picking.search([('sale_id', '=', rec.id), (
+                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
+
+            picking_done = stock_picking.search(
+                [('sale_id', '=', rec.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
+
+            picking_ready = stock_picking.search(
+                [('sale_id', '=', rec.id), ('state', '=', 'assigned')])
+
+            picking_cancel = stock_picking.search(
+                [('sale_id', '=', rec.id), ('state', '=', 'cancel')])
+
+            if picking_partial:
+                rec.ibas_mrf_sale_order_status = 'partial'
+
+            elif picking_ready:
+                rec.ibas_mrf_sale_order_status = 'ready'
+
+            elif picking_done:
+                rec.ibas_mrf_sale_order_status = 'done'
+
+            elif picking_cancel:
+                rec.ibas_mrf_sale_order_status = 'cancel'
+
+            else:
+                rec.ibas_mrf_sale_order_status = None
+
+    # @api.model
+    # def create(self, vals):
+    #    res = super(StockPicking, self).create(vals)
+    #    if res.partner_id and res.partner_id.project_code:
+    #        res.project_code = res.partner_id.project_code
+    #    if res.partner_id and res.partner_id.project_area:
+    #        res.project_area = res.partner_id.project_area
+    #    return res
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):

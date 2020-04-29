@@ -21,9 +21,6 @@ class IBASSale(models.Model):
 
     ibas_mrf_quotation_status = fields.Selection([
         ('draft', 'Draft'),
-        ('approved', 'Approved By Customer'),
-        ('permits', 'With Permits'),
-        ('waiting', 'Waiting for Materials'),
     ], string="Quotation Status", default='draft')
 
     ibas_mrf_sale_order_status = fields.Selection([
@@ -31,10 +28,10 @@ class IBASSale(models.Model):
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', compute='_compute_so_status')
+    ], string='MRF Status', compute='_compute_mrf_status')
 
     @api.depends('ibas_order_type')
-    def _compute_so_status(self):
+    def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
         for rec in self:
             picking_partial = stock_picking.search([('sale_id', '=', rec.id), (
@@ -50,20 +47,19 @@ class IBASSale(models.Model):
                 [('sale_id', '=', rec.id), ('state', '=', 'cancel')])
 
             if picking_partial:
-                rec.ibas_mrf_sale_order_status = 'partial'
+                rec.ibas_mrf_sale_order_status = picking_partial.ibas_mrf_sale_order_status
 
             elif picking_ready:
-                rec.ibas_mrf_sale_order_status = 'ready'
+                rec.ibas_mrf_sale_order_status = picking_ready.ibas_mrf_sale_order_status
 
             elif picking_done:
-                rec.ibas_mrf_sale_order_status = 'done'
+                rec.ibas_mrf_sale_order_status = picking_done.ibas_mrf_sale_order_status
 
             elif picking_cancel:
-                rec.ibas_mrf_sale_order_status = 'cancel'
+                rec.ibas_mrf_sale_order_status = picking_cancel.ibas_mrf_sale_order_status
 
             else:
                 rec.ibas_mrf_sale_order_status = None
-
     # def action_confirm2(self):
     #    for rec in self:
     #        if rec.state in ('draft', 'sent'):
