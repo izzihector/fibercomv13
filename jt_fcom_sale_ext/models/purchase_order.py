@@ -36,7 +36,8 @@ class PurchaseOrder(models.Model):
         string="Approved By Designation", default="COO")
     noted_by = fields.Char(string="Noted By")
     requested_by = fields.Char(string='Requested by')
-    requested_by_designation = fields.Char(string='Requested by Designation', default='Project Manager')
+    requested_by_designation = fields.Char(
+        string='Requested by Designation', default='Project Manager')
 
     def write(self, vals):
         if vals.get('state') in ['done', 'purchase']:
