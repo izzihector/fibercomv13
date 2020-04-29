@@ -34,6 +34,8 @@ class IBASSale(models.Model):
     def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
         for rec in self:
+            stock_pick = stock_picking.search([('sale_id', '=', rec.id)])
+
             picking_partial = stock_picking.search([('sale_id', '=', rec.id), (
                 'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
 
@@ -59,7 +61,7 @@ class IBASSale(models.Model):
                 rec.ibas_mrf_sale_order_status = picking_cancel.ibas_mrf_sale_order_status
 
             else:
-                rec.ibas_mrf_sale_order_status = None
+                rec.ibas_mrf_sale_order_status = stock_pick.ibas_mrf_sale_order_status or False
     # def action_confirm2(self):
     #    for rec in self:
     #        if rec.state in ('draft', 'sent'):

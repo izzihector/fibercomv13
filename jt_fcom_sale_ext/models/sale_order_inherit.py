@@ -117,6 +117,9 @@ class StockPicking(models.Model):
     def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
         for rec in self:
+            stock_pick = stock_picking.search(
+                [('sale_id', '=', rec.sale_id.id)])
+
             picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
                 'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
 
@@ -142,7 +145,7 @@ class StockPicking(models.Model):
                 rec.ibas_mrf_sale_order_status = 'cancel'
 
             else:
-                rec.ibas_mrf_sale_order_status = None
+                rec.ibas_mrf_sale_order_status = stock_pick.ibas_mrf_sale_order_status or False
 
     @api.depends('ibas_order_type')
     def _compute_so_status(self):
