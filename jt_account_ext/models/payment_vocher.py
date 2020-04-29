@@ -40,7 +40,7 @@ class AccountPayment(models.Model):
     def get_currency_word(self):
         return self.currency_id.amount_to_text(self.amount)
 
-    payment_invoice_ids = fields.Many2many('account.move', 'account_move_reference_rel', 'payment_id', 'move_id', string="Invoices",
+    payment_invoice_ids = fields.Many2many('account.move', 'account_move_reference_rel', 'payment_id', 'move_id', string="Payment Invoices",
                                            domain="[('partner_id','=',partner_id),('type','=','in_invoice'),('state', '=', 'posted'),('invoice_payment_state','!=','paid')]")
     account_journal_ids = fields.Many2many(
         'account.move.line', 'account_move_line_reference_rel', 'payment_id', 'line_id', string="Journal Items")
@@ -53,4 +53,5 @@ class AccountPayment(models.Model):
             payment.account_journal_ids = False
             line_ids = payment.payment_invoice_ids.mapped('line_ids').ids
             payment.account_journal_ids = [(6, 0, line_ids)]
-            payment.invoices_ref = ','.join(payment.payment_invoice_ids.mapped('name'))
+            payment.invoices_ref = ','.join(
+                payment.payment_invoice_ids.mapped('name'))
