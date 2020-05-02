@@ -16,6 +16,11 @@
                 <field name="project_area" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
             </xpath>
 
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="before">
+                <field name="qty_available"/>
+                <field name="availability"/>
+            </xpath>
+
         </field>
     </record>
 </data>
