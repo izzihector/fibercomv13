@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
                     <field name="ibas_order_type" required="1"/>
-                    <field name="ibas_mrf_quotation_status" required="1" attrs="{'invisible': [('state', 'in', ['sale','done'])]}"/>
                     <field name="ibas_mrf_sale_order_status" required="0" readonly="1"/>
                 </xpath>
 
