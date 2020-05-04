@@ -103,6 +103,7 @@
                 <xpath expr="//field[@name='lot_id']" position="before">
                     <field name="qty_available" invisible="1"/>
                     <field name="qty_available_store"/>
+                    <field name="ibas_mrf_waiting_status"/>
                     <field name="ibas_mrf_status"/>
                     <field name="availability" invisible="1"/>
                     <field name="availability_store"/>
