@@ -113,7 +113,7 @@ class StockPicking(models.Model):
         ('cancel', 'Cancelled'),
     ], string='MRF Status', compute='_compute_mrf_status', store=True)
 
-    @api.depends('state', 'move_ids_without_package.qty_available')
+    @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
     def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
 
@@ -152,7 +152,7 @@ class StockPicking(models.Model):
                 stock_move_line.update({'ibas_mrf_status': 'cancel'})
 
             else:
-                rec.ibas_mrf_sale_order_status = stock_pick.ibas_mrf_sale_order_status or False
+                rec.ibas_mrf_sale_order_status = None
 
     # @api.model
     # def create(self, vals):

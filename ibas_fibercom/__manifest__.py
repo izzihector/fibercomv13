@@ -33,7 +33,8 @@
         'report/purchase_order.xml',
         'data/ir_sequence_data.xml',
         'views/sale_order.xml',
-        'views/account_move_views.xml'
+        'views/account_move_views.xml',
+        'views/product.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
