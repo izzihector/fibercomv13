@@ -39,6 +39,10 @@ class PurchaseOrder(models.Model):
     requested_by_designation = fields.Char(
         string='Requested by Designation', default='Project Manager')
 
+    project_site = fields.Many2one('res.partner', string='Project Site')
+    project_code = fields.Char(
+        string='Project Code', related='project_site.project_code')
+
     def write(self, vals):
         if vals.get('state') in ['done', 'purchase']:
             user = self.env.user

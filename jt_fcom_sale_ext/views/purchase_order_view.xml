@@ -15,6 +15,10 @@
                     <field name="requested_by"/>
                     <field name="requested_by_designation"/>
 	        	</xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+	        		<field name="project_site"/>
+	        		<field name="project_code"/>
+	        	</xpath>
                 <xpath expr="//header/button[@name='button_confirm'][1]" position="attributes">
                     <attribute  name="groups">purchase.group_purchase_user</attribute>
                 </xpath>
