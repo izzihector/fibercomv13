@@ -44,7 +44,7 @@
 
             <xpath expr="//field[@name='approved_by']" position="after">
                 <field name="issued_by"/>
-                <field name='ibas_mrf_waiting_status' attrs="{'invisible': [('ibas_mrf_sale_order_status','!=', False)]}"/>
+                <field name='ibas_mrf_waiting_status'/>
                 <field name='ibas_mrf_sale_order_status'/>
             </xpath>
         </field>

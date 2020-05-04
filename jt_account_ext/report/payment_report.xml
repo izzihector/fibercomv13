@@ -82,7 +82,7 @@
 
                     <tr>
                         <td style="text-align: left; width: 10%;"><b>Particulars:</b></td>
-                        <td colspan="3" style="text-align: left; width: 40%;">
+                        <td colspan="3" style="text-align: left; width: 40%; font-size: 10vw;">
                             <span t-field="doc.communication"/>
                         </td>
                         <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
@@ -185,7 +185,7 @@
                                     <th style="text-align:right;">Amount</th>
                                 </tr>
                                 <t t-foreach="doc.account_journal_ids" t-as="line">
-                                    <tr style="font-size:12px;">
+                                    <tr style="font-size:10px;">
                                         <td><span t-field="line.account_id"/></td>
                                         <td><span t-field="line.name"/></td>
                                         <td style="text-align:right;">
@@ -207,7 +207,7 @@
                         </td>
                     </tr>
 
-                    <tr rowspan="3" style="font-size:13px;">
+                    <tr rowspan="3" style="font-size:12px;">
                         <td colspan="8">
                             <div style="width:100%;">
                                 <div style="float:left;width:19%;">
@@ -222,12 +222,12 @@
                                     <b>Approved By:</b> <br/><br/><br/>
                                     <span t-field="doc.approved_by"/>    
                                 </div>
-                                <div style="float:left;width:19%; border-left:1px solid black;padding-left:5px;">
+                                <div style="float:left;width:21%; border-left:1px solid black;padding-left:5px;">
                                     <b>Received payment By:</b> <br/><br/><br/>
                                     <span t-field="doc.recieved_by"/><br/>
                                     (Name/ Signature/ Date)    
                                 </div>
-                                <div style="float:left;width:19%;text-align:center;">
+                                <div style="float:left;width:17%;text-align:center;">
                                     <b>Receipt No:</b> <br/><br/><br/>
                                     <span t-field="doc.name"/>    
                                 </div>
@@ -286,7 +286,7 @@
             <field name="margin_left">3</field>
             <field name="margin_right">3</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">55</field>
+            <field name="header_spacing">50</field>
             <field name="dpi">80</field>
         </record>
 

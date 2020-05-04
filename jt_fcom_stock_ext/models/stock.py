@@ -40,6 +40,12 @@ class StockMoveLine(models.Model):
     qty_available_store = fields.Float(
         related='qty_available', store=True, string="Quantity Onhand", group_operator='avg')
 
+    ibas_mrf_waiting_status = fields.Selection([
+        ('approved', 'Approved By Customer'),
+        ('permits', 'With Permits'),
+        ('waiting', 'Waiting for Materials'),
+    ], string='Waiting Status', default='approved')
+
     ibas_mrf_status = fields.Selection([
         ('ready', 'Ready for Release'),
         ('partial', 'Partially Withdrawn'),
@@ -48,10 +54,10 @@ class StockMoveLine(models.Model):
     ], string='MRF Status')
 
     availability = fields.Float(
-        string='availability', related='move_id.availability')
+        string='availability', related='product_id.virtual_available')
 
     availability_store = fields.Float(
-        related='availability', store=True, string="Forcasted Quantity")
+        related='availability', store=True, string="Forcasted Quantity", group_operator='avg')
 
     initial_demand = fields.Float(
         string='Initial Demand', related='move_id.product_uom_qty')
