@@ -179,4 +179,3 @@ class ProductProduct(models.Model):
 						self.env.cr.execute(""" UPDATE stock_move SET state = 'confirmed' WHERE id in %s ;""" % (tuple(move_ids), ))
 					elif len(move_ids) == 1:
 						self.env.cr.execute(""" UPDATE stock_move SET state = 'confirmed' WHERE id = %s ;""" % (move_ids[0]))
-
