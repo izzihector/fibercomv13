@@ -111,12 +111,15 @@ class StockPicking(models.Model):
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', compute='_compute_mrf_status')
+    ], string='MRF Status', compute='_compute_mrf_status', store=True)
 
-    @api.depends('sale_id')
+    @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
     def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
+
         for rec in self:
+            stock_move_line = self.env['stock.move.line'].search(
+                [('picking_id', '=', rec.id)])
             stock_pick = stock_picking.search(
                 [('sale_id', '=', rec.sale_id.id)])
 
@@ -134,46 +137,19 @@ class StockPicking(models.Model):
 
             if picking_partial:
                 rec.ibas_mrf_sale_order_status = 'partial'
+                stock_move_line.update({'ibas_mrf_status': 'partial'})
 
             elif picking_ready:
                 rec.ibas_mrf_sale_order_status = 'ready'
+                stock_move_line.update({'ibas_mrf_status': 'ready'})
 
             elif picking_done:
                 rec.ibas_mrf_sale_order_status = 'done'
+                stock_move_line.update({'ibas_mrf_status': 'done'})
 
             elif picking_cancel:
                 rec.ibas_mrf_sale_order_status = 'cancel'
-
-            else:
-                rec.ibas_mrf_sale_order_status = stock_pick.ibas_mrf_sale_order_status or False
-
-    @api.depends('ibas_order_type')
-    def _compute_so_status(self):
-        stock_picking = self.env['stock.picking']
-        for rec in self:
-            picking_partial = stock_picking.search([('sale_id', '=', rec.id), (
-                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
-
-            picking_done = stock_picking.search(
-                [('sale_id', '=', rec.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
-
-            picking_ready = stock_picking.search(
-                [('sale_id', '=', rec.id), ('state', '=', 'assigned')])
-
-            picking_cancel = stock_picking.search(
-                [('sale_id', '=', rec.id), ('state', '=', 'cancel')])
-
-            if picking_partial:
-                rec.ibas_mrf_sale_order_status = 'partial'
-
-            elif picking_ready:
-                rec.ibas_mrf_sale_order_status = 'ready'
-
-            elif picking_done:
-                rec.ibas_mrf_sale_order_status = 'done'
-
-            elif picking_cancel:
-                rec.ibas_mrf_sale_order_status = 'cancel'
+                stock_move_line.update({'ibas_mrf_status': 'cancel'})
 
             else:
                 rec.ibas_mrf_sale_order_status = None

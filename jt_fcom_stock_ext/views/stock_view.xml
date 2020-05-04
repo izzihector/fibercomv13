@@ -37,6 +37,8 @@
             </field>
         </record>
 
+        
+
         <!-- Product Moves Pivot View -->
         <record id="view_move_line_pivot" model="ir.ui.view">
             <field name="name">stock.move.line.pivot</field>
@@ -60,8 +62,12 @@
                     <field name="delivery_partner_id"/>
                     <field name="subcon"/>
                     <field name="receipt_partner_id"/>
+                    <field name="ibas_mrf_status"/>
                 </xpath>
                 <xpath expr="//group" position="inside">
+                    <filter string="MRF Status" name="by_mrf_status" domain="[]" context="{'group_by':'ibas_mrf_status'}"/>
+                    <filter string="Source Location" name="by_src_location" domain="[]" context="{'group_by':'location_id'}"/>
+                    <filter string="Destination Location" name="by_dest_location" domain="[]" context="{'group_by':'location_dest_id'}"/>
                     <filter string="Delivery Address" name="groupby_delivery_partner_id" domain="[]" context="{'group_by': 'delivery_partner_id'}"/>
                     <filter string="Subcon" name="groupby_subcon" domain="[]" context="{'group_by': 'subcon'}"/>
                     <filter string="Received From" name="groupby_receipt_partner_id" domain="[]" context="{'group_by': 'receipt_partner_id'}"/>
@@ -80,8 +86,62 @@
                     <field name="delivery_partner_id" string='Delivery Address'/>
                     <field name="subcon" string='Subcon'/>
                 </xpath>
+                <xpath expr="//field[@name='qty_done']" position="before">
+                    <field name="qty_available_store"/>
+                    <field name="availability_store"/>
+                    <field name="initial_demand_store"/>
+                </xpath>
             </field>
         </record>
+
+        <!-- Form View Product Moves -->
+        <record id="ibas_fibercom_move_line_view_form" model="ir.ui.view">
+            <field name="name">ibas_fibercom_move_line_view_form</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="before">
+                    <field name="qty_available" invisible="1"/>
+                    <field name="qty_available_store"/>
+                    <field name="ibas_mrf_status"/>
+                    <field name="availability" invisible="1"/>
+                    <field name="availability_store"/>
+                    <field name="initial_demand" invisible="1"/>
+                    <field name="initial_demand_store"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree View Stock Moves  
+        <record id="ibas_fibercom_move_view_tree" model="ir.ui.view">
+            <field name="name">ibas_fibercom_move_view_tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="before">
+                    <field name="availability"/>
+                    <field name="product_qty"/>
+                </xpath>
+            </field>
+        </record> -->
+        
+
+        <!-- Tree View Stock Moves 
+        <record id="ibas_fibercom_move_view_tree" model="ir.ui.view">
+            <field name="name">ibas_fibercom_move_view_tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="before">
+                    <field name="availability"/>
+                    <field name="product_qty"/>
+                </xpath>
+            </field>
+        </record>
+        -->
+
+
+        
 
         <menuitem
             id="menu_warehouse_report_user"
