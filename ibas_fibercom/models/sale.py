@@ -19,10 +19,6 @@ class IBASSale(models.Model):
         ('SALE', 'Sale'),
     ], string='Document Type', default='MRF')
 
-    ibas_mrf_quotation_status = fields.Selection([
-        ('draft', 'Draft'),
-    ], string="Quotation Status", default='draft')
-
     ibas_mrf_sale_order_status = fields.Selection([
         ('ready', 'Ready for Release'),
         ('partial', 'Partially Withdrawn'),
