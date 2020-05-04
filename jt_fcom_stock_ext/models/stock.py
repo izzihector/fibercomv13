@@ -44,7 +44,7 @@ class StockMoveLine(models.Model):
         ('approved', 'Approved By Customer'),
         ('permits', 'With Permits'),
         ('waiting', 'Waiting for Materials'),
-    ], string='Waiting Status', default='approved')
+    ], string='Waiting Status')
 
     ibas_mrf_status = fields.Selection([
         ('ready', 'Ready for Release'),

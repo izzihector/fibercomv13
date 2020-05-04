@@ -91,9 +91,9 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     project_code = fields.Char(
-        string='Project Code', related='partner_id.project_code')
+        string='Project Code', compute='_compute_project', inverse='_inverse_project_code')
     project_area = fields.Char(
-        string='Project Area', related='partner_id.project_area')
+        string='Project Area', compute='_compute_project', inverse='_inverse_project_area')
     requested_by = fields.Char(
         related="sale_id.requested_by", string="Requested by")
     approved_by = fields.Char(
@@ -104,7 +104,7 @@ class StockPicking(models.Model):
         ('approved', 'Approved By Customer'),
         ('permits', 'With Permits'),
         ('waiting', 'Waiting for Materials'),
-    ], string='Waiting Status', default='approved')
+    ], string='Waiting Status')
 
     ibas_mrf_sale_order_status = fields.Selection([
         ('ready', 'Ready for Release'),
@@ -112,6 +112,37 @@ class StockPicking(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string='MRF Status', compute='_compute_mrf_status', store=True)
+
+    @api.depends('partner_id')
+    def _compute_project(self):
+        for rec in self:
+            if rec.partner_id:
+                for contact in rec.partner_id:
+                    rec.project_area = contact.project_area if contact.project_area else False
+                    rec.project_code = contact.project_code if contact.project_code else False
+            else:
+                rec.project_area = None
+                rec.project_code = None
+
+    def _inverse_project_area(self):
+        for contact in self.partner_id:
+            if self.partner_id:
+                for rec in self:
+                    contact.project_area = rec.project_area
+
+    def _inverse_project_code(self):
+        for contact in self.partner_id:
+            if self.partner_id:
+                for rec in self:
+                    contact.project_code = rec.project_code
+
+    # @api.onchange('ibas_mrf_waiting_status')
+    # def _onchange_mrf_waiting(self):
+    #    for rec in self:
+    #        stock_move_line = self.env['stock.move.line'].search([('picking_id','=', rec.id)])
+
+    #        if ibas_mrf_waiting_status:
+    #            stock_move_line.
 
     @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
     def _compute_mrf_status(self):
