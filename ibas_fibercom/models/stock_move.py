@@ -6,7 +6,7 @@ from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-# Commenting to Update
+# Commenting to Update2
 class IBASStockMove(models.Model):
     _inherit = 'stock.move'
 
