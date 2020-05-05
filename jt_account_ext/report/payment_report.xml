@@ -79,18 +79,22 @@
                             <hr style="border: 1px double #383636;"/>
                         </td>
                     </tr>
-
-                    <tr>
+                    </thead>
+                </table>
+                <table class="table-condensed table-bordered table_custom" style="width:100%; font-size: 12px;">
+                    <tr style="width:100%;">
                         <td style="text-align: left; width: 10%;"><b>Particulars:</b></td>
-                        <td colspan="3" style="text-align: left; width: 40%; font-size: 10vw;">
+                        <td colspan="3" style="text-align: left; width:50%; font-size: 10px;">
                             <span t-field="doc.communication"/>
                         </td>
-                        <td colspan="4" style="float:right;text-align:center;vertical-align:right;">
+                        <td colspan="4" style="text-align:center;vertical-align:right; width:40%;">
                             <span style="font-size:15px;" t-field="doc.amount"/><br/>
                             <t t-set="amount_to_text" t-value="doc.get_currency_word()"/>
                             <b><span style="font-size:12px;"><t t-esc="amount_to_text"/> Only</span></b>
                         </td>
                     </tr>
+                </table>
+                <table class="table-condensed table-bordered table_custom" style="width:100%; font-size: 12px;">
                     <tr>
                         <td colspan="8">
                             <hr style="border: 1px double #383636;"/>
@@ -113,8 +117,8 @@
                         </td>
                     </tr> -->
 
-                    <tr>
-                        <th style="text-align:left;border-right:1px solid #383636;" colspan="4">
+                    <tr style="width:100%;">
+                        <th style="text-align:left;border-right:1px solid #383636; width:57%;" colspan="4">
                             <table class="table_child table-condensed table-bordered" style="width:100%;border:none;">
                                 <tr>
                                     <th colspan="5" style="text-align:left; font-size:13px;">Invoice / Account References</th>
@@ -169,7 +173,7 @@
                                 </tr>
                             </table>
                         </th>
-                        <th style="vertical-align:top;text-align:left;" colspan="4">
+                        <th style="vertical-align:top;text-align:left;width:43%;" colspan="4">
                             <table style="width:100%;border:none;" class="table_child table-condensed table-bordered">
                                 <tr>
                                     <th style="text-align:left; font-size:13px;" colspan="3">Accounts Distribution</th>
@@ -185,7 +189,7 @@
                                     <th style="text-align:right;">Amount</th>
                                 </tr>
                                 <t t-foreach="doc.account_journal_ids" t-as="line">
-                                    <tr style="font-size:10px;">
+                                    <tr style="font-size:8px;">
                                         <td><span t-field="line.account_id"/></td>
                                         <td><span t-field="line.name"/></td>
                                         <td style="text-align:right;">
@@ -207,7 +211,7 @@
                         </td>
                     </tr>
 
-                    <tr rowspan="3" style="font-size:12px;">
+                    <tr rowspan="3" style="font-size:11px;">
                         <td colspan="8">
                             <div style="width:100%;">
                                 <div style="float:left;width:19%;">
@@ -222,12 +226,12 @@
                                     <b>Approved By:</b> <br/><br/><br/>
                                     <span t-field="doc.approved_by"/>    
                                 </div>
-                                <div style="float:left;width:21%; border-left:1px solid black;padding-left:5px;">
+                                <div style="float:left;width:22%; border-left:1px solid black;padding-left:5px;">
                                     <b>Received payment By:</b> <br/><br/><br/>
                                     <span t-field="doc.recieved_by"/><br/>
                                     (Name/ Signature/ Date)    
                                 </div>
-                                <div style="float:left;width:17%;text-align:center;">
+                                <div style="float:left;width:20%;text-align:center;">
                                     <b>Receipt No:</b> <br/><br/><br/>
                                     <span t-field="doc.name"/>    
                                 </div>
@@ -260,7 +264,7 @@
                             <hr style="border: 1px double #383636;"/>
                         </td>
                     </tr>
-                </thead>
+               
                 <tbody>
                 </tbody>
             </table>
@@ -281,10 +285,10 @@
             <field name="page_height">139</field>
             <field name="page_width">216</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">3</field>
-            <field name="margin_bottom">3</field>
-            <field name="margin_left">3</field>
-            <field name="margin_right">3</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">50</field>
             <field name="dpi">80</field>
