@@ -111,7 +111,7 @@ class StockPicking(models.Model):
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', compute='_compute_mrf_status', store=True)
+    ], string='MRF Status', compute='_compute_mrf_status')
 
     @api.depends('partner_id')
     def _compute_project(self):
