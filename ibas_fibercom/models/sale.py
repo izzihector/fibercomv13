@@ -24,7 +24,7 @@ class IBASSale(models.Model):
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', compute='_compute_mrf_status')
+    ], string='MRF Status')
 
     @api.depends('ibas_order_type')
     def _compute_mrf_status(self):

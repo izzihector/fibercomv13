@@ -147,12 +147,13 @@ class StockPicking(models.Model):
     @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
     def _compute_mrf_status(self):
         stock_picking = self.env['stock.picking']
+        #sale_order = self.env['sale.order']
 
         for rec in self:
             stock_move_line = self.env['stock.move.line'].search(
                 [('picking_id', '=', rec.id)])
-            stock_pick = stock_picking.search(
-                [('sale_id', '=', rec.sale_id.id)])
+            # stock_pick = stock_picking.search(
+            #    [('sale_id', '=', rec.sale_id.id)])
 
             picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
                 'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
