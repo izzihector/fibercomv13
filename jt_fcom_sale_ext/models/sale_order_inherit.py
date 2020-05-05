@@ -152,19 +152,20 @@ class StockPicking(models.Model):
         for rec in self:
             stock_move_line = self.env['stock.move.line'].search(
                 [('picking_id', '=', rec.id)])
+
             # stock_pick = stock_picking.search(
             #    [('sale_id', '=', rec.sale_id.id)])
 
             # picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
             #    'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
 
-            sale_partial = sale_order.search([('picking_ids', '=', rec.id), (
+            sale_partial = sale_order.browse([('picking_ids', '=', rec.id), (
                 'picking_ids.state', 'in', ('assigned', 'waiting', 'confirmed')), ('picking_ids.backorder_id', '!=', False)])
 
             # picking_done = stock_picking.search(
             #    [('sale_id', '=', rec.sale_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
 
-            sale_done = sale_order.search(
+            sale_done = sale_order.browse(
                 [('picking_ids', '=', rec.id), ('picking_ids.state', '=', 'done'), ('picking_ids.backorder_id', '=', False)])
 
             # picking_ready = stock_picking.search(
@@ -173,17 +174,17 @@ class StockPicking(models.Model):
             # picking_cancel = stock_picking.search(
             #    [('sale_id', '=', rec.sale_id.id), ('state', '=', 'cancel')])
 
-            # if sale_partial:
-            #    rec.ibas_mrf_sale_order_status = 'partial'
-            #    stock_move_line.update({'ibas_mrf_status': 'partial'})
+            if sale_partial:
+                rec.ibas_mrf_sale_order_status = 'partial'
+                stock_move_line.update({'ibas_mrf_status': 'partial'})
 
-            if rec.state == 'assigned':
+            elif rec.state == 'assigned':
                 rec.ibas_mrf_sale_order_status = 'ready'
                 stock_move_line.update({'ibas_mrf_status': 'ready'})
 
-            # elif sale_done:
-            #    rec.ibas_mrf_sale_order_status = 'done'
-            #    stock_move_line.update({'ibas_mrf_status': 'done'})
+            elif sale_done:
+                rec.ibas_mrf_sale_order_status = 'done'
+                stock_move_line.update({'ibas_mrf_status': 'done'})
 
             elif rec.state == 'cancel':
                 rec.ibas_mrf_sale_order_status = 'cancel'
