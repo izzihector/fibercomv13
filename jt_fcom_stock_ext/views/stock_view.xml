@@ -65,6 +65,7 @@
                     <field name="ibas_mrf_status"/>
                 </xpath>
                 <xpath expr="//group" position="inside">
+                    <filter string="Waiting Status" name="by_mrf_waiting_status" domain="[]" context="{'group_by':'ibas_mrf_waiting_status'}"/>
                     <filter string="MRF Status" name="by_mrf_status" domain="[]" context="{'group_by':'ibas_mrf_status'}"/>
                     <filter string="Source Location" name="by_src_location" domain="[]" context="{'group_by':'location_id'}"/>
                     <filter string="Destination Location" name="by_dest_location" domain="[]" context="{'group_by':'location_dest_id'}"/>
