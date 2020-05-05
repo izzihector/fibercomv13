@@ -146,8 +146,8 @@ class StockPicking(models.Model):
 
     @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
     def _compute_mrf_status(self):
-        stock_picking = self.env['stock.picking']
-        #sale_order = self.env['sale.order']
+        #stock_picking = self.env['stock.picking']
+        sale_order = self.env['sale.order']
 
         for rec in self:
             stock_move_line = self.env['stock.move.line'].search(
@@ -155,31 +155,37 @@ class StockPicking(models.Model):
             # stock_pick = stock_picking.search(
             #    [('sale_id', '=', rec.sale_id.id)])
 
-            picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
-                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
+            # picking_partial = stock_picking.search([('sale_id', '=', rec.sale_id.id), (
+            #    'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
 
-            picking_done = stock_picking.search(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
+            sale_partial = sale_order.search([('picking_ids', '=', rec.id), (
+                'picking_ids.state', 'in', ('assigned', 'waiting', 'confirmed')), ('picking_ids.backorder_id', '!=', False)])
 
-            picking_ready = stock_picking.search(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'assigned')])
+            # picking_done = stock_picking.search(
+            #    [('sale_id', '=', rec.sale_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
 
-            picking_cancel = stock_picking.search(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'cancel')])
+            sale_done = sale_order.search(
+                [('picking_ids', '=', rec.id), ('picking_ids.state', '=', 'done'), ('picking_ids.backorder_id', '=', False)])
 
-            if picking_partial:
+            # picking_ready = stock_picking.search(
+            #    [('sale_id', '=', rec.sale_id.id), ('state', '=', 'assigned')])
+
+            # picking_cancel = stock_picking.search(
+            #    [('sale_id', '=', rec.sale_id.id), ('state', '=', 'cancel')])
+
+            if sale_partial:
                 rec.ibas_mrf_sale_order_status = 'partial'
                 stock_move_line.update({'ibas_mrf_status': 'partial'})
 
-            elif picking_ready:
+            elif rec.state == 'assigned':
                 rec.ibas_mrf_sale_order_status = 'ready'
                 stock_move_line.update({'ibas_mrf_status': 'ready'})
 
-            elif picking_done:
+            elif sale_done:
                 rec.ibas_mrf_sale_order_status = 'done'
                 stock_move_line.update({'ibas_mrf_status': 'done'})
 
-            elif picking_cancel:
+            elif rec.state == 'cancel':
                 rec.ibas_mrf_sale_order_status = 'cancel'
                 stock_move_line.update({'ibas_mrf_status': 'cancel'})
 
