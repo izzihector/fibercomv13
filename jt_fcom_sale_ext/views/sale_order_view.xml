@@ -17,6 +17,7 @@
             <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="attributes">
                 <attribute name="attrs">{'readonly':[('parent.is_admin', '=', False)]}</attribute>
             </xpath>
+            
         </field>
     </record>
 
