@@ -143,25 +143,35 @@ class StockPicking(models.Model):
             stock_move_line = self.env['stock.move.line'].search(
                 [('picking_id', '=', rec.id)])
 
+            sale_order = self.env['sale.order'].search(
+                [('id', '=', self.sale_id.id)])
+
             if rec.state == 'assigned' and rec.backorder_id:
                 rec.ibas_mrf_sale_order_status = 'partial'
                 stock_move_line.update({'ibas_mrf_status': 'partial'})
+                sale_order.update({'ibas_mrf_sale_order_status': 'partial'})
 
             else:
                 if rec.state == 'done':
                     rec.ibas_mrf_sale_order_status = 'done'
                     stock_move_line.update({'ibas_mrf_status': 'done'})
+                    sale_order.update(
+                        {'ibas_mrf_sale_order_status': 'done'})
 
                 elif rec.state == 'assigned':
                     rec.ibas_mrf_sale_order_status = 'ready'
                     stock_move_line.update({'ibas_mrf_status': 'ready'})
+                    sale_order.update({'ibas_mrf_sale_order_status': 'ready'})
 
                 elif rec.state == 'cancel':
                     rec.ibas_mrf_sale_order_status = 'cancel'
                     stock_move_line.update({'ibas_mrf_status': 'cancel'})
+                    sale_order.update({'ibas_mrf_sale_order_status': 'cancel'})
 
                 else:
                     rec.ibas_mrf_sale_order_status = None
+                    stock_move_line.update({'ibas_mrf_status': None})
+                    sale_order.update({'ibas_mrf_sale_order_status': None})
 
     # @api.model
     # def create(self, vals):
