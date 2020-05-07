@@ -27,6 +27,7 @@
                             </td>
                             <td>
                                 <!-- BUSINESS STYLE -->
+                                <span style="padding-left: 34px;" t-field="doc.bus_style"/>
                             </td>
                         </tr>
                         <tr>
@@ -36,6 +37,21 @@
                             </td>
                             <td>
                                 <span style="padding-left: 34px;" t-field="doc.invoice_payment_term_id"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="padding-left: 33px; text-align: center;">
+                                <span t-field="doc.purchase_no"/>
+                            </td>
+                            <td style="padding-left: 33px; text-align: center;">
+                                <!-- DR NO -->
+                                <span t-field="doc.sale_no"/>
+                            </td>
+                            <td style="padding-left: 33px; text-align: center;">
+                                <span t-field="doc.name"/>
                             </td>
                         </tr>
                     </table>
@@ -49,8 +65,26 @@
                                 <t t-esc="line.name"/>
                             </td>
                             <td style="width: 20%; text-align: center;">
-                                <t t-esc="'{:,.2f}'.format(line.price_total)"/>
+                                <t t-esc="'{:,.2f}'.format(line.price_unit)"/>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr t-foreach='doc.line_ids' t-as='tax_line'>
+                            <t t-if="tax_line.tax_line_id">
+                                <td style="width: 10%; text-align: center;">
+                                    <br/>
+                                </td>
+                                <td style="width: 70%">
+                                    <t t-esc="tax_line.name"/>
+                                </td>
+                                <td style="width: 20%; text-align: center;">
+                                    <t t-esc="'{:,.2f}'.format(tax_line.price_total)"/>
+                                </td>
+                            </t>
                         </tr>
                     </table>
 
@@ -61,11 +95,11 @@
                         </table>
                         <br/>
                         <br/>
-                        <!--<table style="width: 100%">
-                            <td style="width: 33%; text-alin: center;"><span t-field="doc.prepared_by"/></td>
+                        <table style="width: 100%">
+                            <td style="width: 33%; text-alin: center;"><span t-field="doc.invoice_user_id"/></td>
                             <td style="width: 33%; text-alin: center;"><span t-field="doc.approved_by"/></td>
                             <td style="width: 34%; text-alin: center;"><span t-field="doc.received_by"/></td>
-                        </table> -->
+                        </table>
                     </div>
                 </div>
             </t>
@@ -79,7 +113,7 @@
                 <div class="page" style="font-size:14px">
                        <table style="width: 100%;">
                             <tr>
-                                <td style="width: 75%;">
+                                <td colspan="2">
                                     <span style="padding-left: 75px;" t-field="doc.partner_id"/>
                                 </td>
                                 <td style="width: 25%;">
@@ -87,7 +121,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td colspan="2">
                                     <span style="padding-left: 75px;" t-field="doc.partner_id.street"/> <span t-field="doc.partner_id.street2"/> <span t-field="doc.partner_id.city"/>
                                 </td>
                                 <td>
@@ -100,22 +134,25 @@
                                 </td>
                                 <td>
                                     <!-- BUSINESS STYLE -->
-                                    <span style="padding-left: 34px;"/>
+                                    <span style="padding-left: 34px;" t-field="doc.bus_style"/>
                                 </td>
                                 <td>
                                     <span style="padding-left: 34px;" t-field="doc.invoice_payment_term_id"/>
                                 </td>
                             </tr>
+                        </table>
+                        <br/>
+                        <table style="width: 100%">
                             <tr>
-                                <td>
-                                    <span style="padding-left: 33px;" t-field="doc.ref"/>
+                                <td style="padding-left: 33px; text-align: center;">
+                                    <span t-field="doc.purchase_no"/>
                                 </td>
-                                <td>
+                                <td style="padding-left: 33px; text-align: center;">
                                     <!-- DR NO -->
-                                    <span style="padding-left: 33px;"/>
+                                    <span t-field="doc.purchase_no"/>
                                 </td>
-                                <td>
-                                    <span style="padding-left: 33px;" t-field="doc.name"/>
+                                <td style="padding-left: 33px; text-align: center;">
+                                    <span t-field="doc.name"/>
                                 </td>
                             </tr>
                         </table>
@@ -134,7 +171,7 @@
                                 <td style="width: 10%">
                                     <t t-esc="'{:,.2f}'.format(line.price_unit)"/>
                                 </td>
-                                <td style="width: 15%;">
+                                <td style="width: 15%; text-align: center;">
                                     <t t-esc="'{:,.2f}'.format(line.price_total)"/>
                                 </td>
                             </tr>
@@ -143,13 +180,14 @@
                         <div class="footer">
                             <table style="width: 100%">
                                 <td style="width: 75%"></td>
-                                <td style="width: 25%; text-align: center"><span t-field="doc.amount_total"/></td>
+                                <td style="width: 25%; text-align: center"><span t-esc="'{:,.2f}'.format(doc.amount_total)"/></td>
                             </table>
                             <br/>
                             <br/>
                             <table style="width: 100%">
-                                <td style="width: 60%"></td>
-                                <td style="width: 40%;"><span t-field="doc.invoice_user_id"/></td>
+                                <td style="width: 33%; text-alin: center;"><span t-field="doc.invoice_user_id"/></td>
+                                <td style="width: 33%; text-alin: center;"><span t-field="doc.approved_by"/></td>
+                                <td style="width: 34%; text-alin: center;"><span t-field="doc.received_by"/></td>
                             </table>
                        </div>
                 </div>
