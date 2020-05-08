@@ -65,40 +65,5 @@ class StockMoveLine(models.Model):
     initial_demand_store = fields.Float(
         related='initial_demand', store=True, string='Demand')
 
-    @api.depends('state')
-    def _compute_mrf_status(self):
-        stock_picking = self.env['stock.picking']
-        for rec in self:
-
-            #stock_pick = stock_picking.search([('id', '=', rec.picking_id.id)])
-
-            picking_partial = stock_picking.search([('id', '=', rec.picking_id.id), (
-                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
-
-            picking_done = stock_picking.search(
-                [('id', '=', rec.picking_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
-
-            picking_ready = stock_picking.search(
-                [('id', '=', rec.picking_id.id), ('state', '=', 'assigned')])
-
-            picking_cancel = stock_picking.search(
-                [('id', '=', rec.picking_id.id), ('state', '=', 'cancel')])
-
-            if picking_partial:
-                for pick in picking_partial:
-                    rec.ibas_mrf_status = pick.ibas_mrf_sale_order_status
-
-            elif picking_ready:
-                for pick in picking_ready:
-                    rec.ibas_mrf_status = pick.ibas_mrf_sale_order_status
-
-            elif picking_done:
-                for pick in picking_done:
-                    rec.ibas_mrf_status = pick.ibas_mrf_sale_order_status
-
-            elif picking_cancel:
-                for pick in picking_cancel:
-                    rec.ibas_mrf_status = pick.ibas_mrf_sale_order_status
-
-            else:
-                rec.ibas_mrf_status = None
+    scheduled_date = fields.Datetime(
+        string='Scheduled Date', related='picking_id.scheduled_date')
