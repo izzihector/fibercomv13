@@ -111,7 +111,7 @@ class StockPicking(models.Model):
         ('partial', 'Partially Withdrawn'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
-    ], string='MRF Status', compute='_compute_mrf_status')
+    ], string='MRF Status', compute='_compute_mrf_status', store=True)
 
     @api.depends('partner_id')
     def _compute_project(self):
@@ -136,62 +136,42 @@ class StockPicking(models.Model):
                 for rec in self:
                     contact.project_code = rec.project_code
 
-    # @api.onchange('ibas_mrf_waiting_status')
-    # def _onchange_mrf_waiting(self):
-    #    for rec in self:
-    #        stock_move_line = self.env['stock.move.line'].search([('picking_id','=', rec.id)])
-
-    #        if ibas_mrf_waiting_status:
-    #            stock_move_line.
-
-    @api.depends('state', 'move_ids_without_package.qty_available', 'move_line_ids_without_package')
+    @api.depends('state')
     def _compute_mrf_status(self):
-        stock_picking = self.env['stock.picking']
-        # sale_order = self.env['sale.order']
 
         for rec in self:
             stock_move_line = self.env['stock.move.line'].search(
                 [('picking_id', '=', rec.id)])
 
-            # stock_pick = stock_picking.search(
-            #    [('sale_id', '=', rec.sale_id.id)])
+            sale_order = self.env['sale.order'].search(
+                [('id', '=', self.sale_id.id)])
 
-            picking_partial = stock_picking.browse([('sale_id', '=', rec.sale_id.id), (
-                'state', 'in', ('assigned', 'waiting', 'confirmed')), ('backorder_id', '!=', False)])
-
-            # sale_partial = sale_order.browse([('picking_ids', '=', rec.id), (
-            #    'picking_ids.state', 'in', ('assigned', 'waiting', 'confirmed')), ('picking_ids.backorder_id', '!=', False)])
-
-            picking_done = stock_picking.browse(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'done'), ('backorder_id', '=', False)])
-
-            # sale_done = sale_order.browse(
-            #    [('picking_ids', '=', rec.id), ('picking_ids.state', '=', 'done'), ('picking_ids.backorder_id', '=', False)])
-
-            picking_ready = stock_picking.browse(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'assigned')])
-
-            picking_cancel = stock_picking.browse(
-                [('sale_id', '=', rec.sale_id.id), ('state', '=', 'cancel')])
-
-            if picking_ready:
-                rec.ibas_mrf_sale_order_status = 'ready'
-                stock_move_line.update({'ibas_mrf_status': 'ready'})
-
-            elif picking_partial:
+            if rec.state == 'assigned' and rec.backorder_id:
                 rec.ibas_mrf_sale_order_status = 'partial'
                 stock_move_line.update({'ibas_mrf_status': 'partial'})
-
-            elif picking_done:
-                rec.ibas_mrf_sale_order_status = 'done'
-                stock_move_line.update({'ibas_mrf_status': 'done'})
-
-            elif picking_cancel:
-                rec.ibas_mrf_sale_order_status = 'cancel'
-                stock_move_line.update({'ibas_mrf_status': 'cancel'})
+                sale_order.update({'ibas_mrf_sale_order_status': 'partial'})
 
             else:
-                rec.ibas_mrf_sale_order_status = None
+                if rec.state == 'done':
+                    rec.ibas_mrf_sale_order_status = 'done'
+                    stock_move_line.update({'ibas_mrf_status': 'done'})
+                    sale_order.update(
+                        {'ibas_mrf_sale_order_status': 'done'})
+
+                elif rec.state == 'assigned':
+                    rec.ibas_mrf_sale_order_status = 'ready'
+                    stock_move_line.update({'ibas_mrf_status': 'ready'})
+                    sale_order.update({'ibas_mrf_sale_order_status': 'ready'})
+
+                elif rec.state == 'cancel':
+                    rec.ibas_mrf_sale_order_status = 'cancel'
+                    stock_move_line.update({'ibas_mrf_status': 'cancel'})
+                    sale_order.update({'ibas_mrf_sale_order_status': 'cancel'})
+
+                else:
+                    rec.ibas_mrf_sale_order_status = None
+                    stock_move_line.update({'ibas_mrf_status': None})
+                    sale_order.update({'ibas_mrf_sale_order_status': None})
 
     # @api.model
     # def create(self, vals):

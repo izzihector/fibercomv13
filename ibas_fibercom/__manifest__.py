@@ -25,16 +25,19 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
+        'data/ir_sequence_data.xml',
+        'data/report_paperformat_data.xml',
         'views/views.xml',
         'views/templates.xml',
         'views/stock.xml',
         'views/action_server.xml',
-        'report/delivery_slip.xml',
-        'report/purchase_order.xml',
-        'data/ir_sequence_data.xml',
         'views/sale_order.xml',
         'views/account_move_views.xml',
         'views/product.xml',
+        'report/delivery_slip.xml',
+        'report/purchase_order.xml',
+        'report/report_account_stp.xml',
+        'report/report_menu.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
