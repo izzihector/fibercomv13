@@ -83,23 +83,19 @@
             <field name="model">stock.move.line</field>
             <field name="inherit_id" ref="stock.view_move_line_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='lot_id']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='reference']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='company_id']" position="replace">
-                </xpath>
-               <!-- <xpath expr="//field[@name='location_dest_id']" position="after">
-                    <field name="receipt_partner_id" string='Recieve From'/>
-                    <field name="delivery_partner_id" string='Delivery Address'/>
-                    <field name="subcon" string='Subcon'/>
-                </xpath> -->
-                <xpath expr="//field[@name='qty_done']" position="before">
-                    <field name="qty_available_store"/>
-                    <field name="availability_store"/>
-                    <field name="initial_demand_store"/>
+                <xpath expr="//tree" position="replace">
+                    <tree decoration-muted="ibas_mrf_status == 'cancel'" decoration-danger="(ibas_mrf_status not in ('cancel','done'))" string="Move Lines" create="0" default_order="scheduled_date">
+                        <field name='scheduled_date'/>
+                        <field name="product_id"/>
+                        <field name="location_id"/>
+                        <field name="location_dest_id"/>
+                        <field name="qty_available_store"/>
+                        <field name="availability_store"/>
+                        <field name="initial_demand_store"/>
+                        <field name="qty_done" string="Quantity Done"/>
+                        <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                        <field name="ibas_mrf_status"/>
+                    </tree>
                 </xpath>
             </field>
         </record>
