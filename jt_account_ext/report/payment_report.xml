@@ -162,13 +162,13 @@
                                     <th style="text-align:left;">Totals</th>
                                     <th style="text-align:left;"></th>
                                     <th style="text-align:right;">
-                                        <t t-esc="untaxed"/>
+                                        <t t-esc="'{:,.2f}'.format(untaxed)"/>
                                     </th>
                                     <th style="text-align:right;">
-                                        <t t-esc="tax"/>
+                                        <t t-esc="'{:,.2f}'.format(tax)"/>
                                     </th>
                                     <th style="text-align:right;">
-                                        <t t-esc="total"/>
+                                        <t t-esc="'{:,.2f}'.format(total)"/>
                                     </th>
                                 </tr>
                             </table>
