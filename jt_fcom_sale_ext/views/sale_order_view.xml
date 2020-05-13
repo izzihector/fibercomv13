@@ -50,4 +50,19 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Transfer Search View -->
+    <record id="stock_picking_search_inh_fcom" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+        <xpath expr="//search" position="inside">
+            <separator/>                 
+            <filter name="project_code" string="Project Code is set" domain="[('partner_id.project_code','!=', False)]"/> 
+            <filter name="project_area" string="Project Area is set" domain="[('partner_id.project_area','!=', False)]"/>              
+        </xpath>
+            
+        </field>
+    </record>
 </odoo>
