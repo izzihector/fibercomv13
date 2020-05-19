@@ -48,6 +48,11 @@
                 <field name='ibas_mrf_waiting_status'/>
                 <field name='ibas_mrf_sale_order_status'/>
             </xpath>
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="project_code_store" invisible="1"/>
+                <field name="project_area_store" invisible="1"/>
+            </xpath>
+
         </field>
     </record>
 
