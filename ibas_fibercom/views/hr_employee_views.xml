@@ -10,7 +10,8 @@
             <field name="name" class="oe_read_only"/>
             <field name="first_name"  default_focus="1" placeholder="First Name" required="1" class="oe_edit_only"/>
             <field name="middle_name" placeholder="Middle Name" required="1" class="oe_edit_only"/>
-            <field name="last_name"  placeholder="Last Name" required="1" class="oe_edit_only"/>         
+            <field name="last_name"  placeholder="Last Name" required="1" class="oe_edit_only"/>  
+            <field name="asset_ids"  invisible="1"/>       
             </xpath>
 
         </field>
