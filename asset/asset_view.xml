@@ -24,7 +24,7 @@
                     <field name="name"/>
                     <field name="property_stock_asset"/>
                     <field name="criticality"/>
-                    <field name="user_id"/>
+                    <field name="employee_id"/>
                 </tree>
             </field>
         </record>
@@ -55,7 +55,7 @@
                         <group>
                             <group>
                                 <field name="criticality"/>
-                                <field name="user_id"/>
+                                <field name="employee_id"/>
                             </group>
                             <group>
                                 <field name="active"/>
@@ -103,7 +103,7 @@
                 <kanban>
                     <field name="maintenance_state_id"/>
                     <field name="maintenance_state_color"/>
-                    <field name="user_id"/>
+                    <field name="employee_id"/>
                     <field name="criticality"/>
                     <field name="id" />
                     <templates>
@@ -128,7 +128,7 @@
                                         <a t-if="record.criticality.raw_value gt 1" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value lte 2" t-attf-title="#{record.criticality.value}" class="codup_attention_off"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value gt 2" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
-                                        <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                        <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/>
                                         </li>
                                     </ul>
                                 </div>
@@ -149,7 +149,7 @@
                     <field name="name"/>
                     <field name="property_stock_asset"/>
                     <field name="criticality"/>
-                    <field name="user_id"/>
+                    <field name="employee_id"/>
                     <field name="category_ids"/>
                     <separator />
                     <group expand="0" string="Group By">
@@ -158,8 +158,8 @@
                               context="{'group_by': 'name'}"
                               />
                       <filter name="group_user"
-                              string="User"
-                              context="{'group_by': 'user_id'}"
+                              string="Employee"
+                              context="{'group_by': 'employee_id'}"
                               />
                     </group>
                 </search>
@@ -211,7 +211,7 @@
                 <kanban default_group_by="maintenance_state_id" create="false" delete="false">
                     <field name="maintenance_state_id"/>
                     <field name="maintenance_state_color"/>
-                    <field name="user_id"/>
+                    <field name="employee_id"/>
                     <field name="criticality"/>
                     <field name="id" />
                     <templates>
@@ -235,7 +235,7 @@
                                         <a t-if="record.criticality.raw_value gt 1" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value lte 2" t-attf-title="#{record.criticality.value}" class="codup_attention_off"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value gt 2" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
-                                        <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                        <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/>
                                         </li>
                                     </ul>
                                 </div>
