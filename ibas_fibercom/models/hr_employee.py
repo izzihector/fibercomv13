@@ -27,3 +27,6 @@ class IbasEmployee(models.Model):
 
             vals.update({'name': name.upper()})
         self.update(vals)
+
+    asset_ids = fields.One2many(
+        'asset.asset', 'employee_id', string='Asset Ids')

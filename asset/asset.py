@@ -114,15 +114,15 @@ class asset_asset(models.Model):
 
     name = fields.Char('Asset Name', size=64, required=True, translate=True)
     finance_state_id = fields.Many2one(
-        'asset.state', 'State', domain=[('team', '=', '0')])
+        'asset.state', 'Finance State', domain=[('team', '=', '0')])
     warehouse_state_id = fields.Many2one(
-        'asset.state', 'State', domain=[('team', '=', '1')])
+        'asset.state', 'Warehouse State', domain=[('team', '=', '1')])
     manufacture_state_id = fields.Many2one(
-        'asset.state', 'State', domain=[('team', '=', '2')])
+        'asset.state', 'Manufacture State', domain=[('team', '=', '2')])
     maintenance_state_id = fields.Many2one(
-        'asset.state', 'State', domain=[('team', '=', '3')])
+        'asset.state', 'Maintenace State', domain=[('team', '=', '3')])
     accounting_state_id = fields.Many2one(
-        'asset.state', 'State', domain=[('team', '=', '4')])
+        'asset.state', 'Accounting State', domain=[('team', '=', '4')])
     maintenance_state_color = fields.Selection(
         related='maintenance_state_id.state_color', selection=STATE_COLOR_SELECTION, string="Color", readonly=True)
     criticality = fields.Selection(CRITICALITY_SELECTION, 'Criticality')
@@ -130,7 +130,8 @@ class asset_asset(models.Model):
         'stock.location', "Asset Location",
         company_dependent=True, domain=[('usage', 'like', 'asset')],
         help="This location will be used as the destination location for installed parts during asset life.")
-    #user_id = fields.Many2one('res.users', 'User Assigned to', track_visibility='onchange')
+    user_id = fields.Many2one(
+        'res.users', 'User Assigned to', track_visibility='onchange')
     employee_id = fields.Many2one(
         'hr.employee', 'Assigned to', track_visibility='onchange')
     active = fields.Boolean('Active', default=True)

@@ -104,6 +104,7 @@
                     <field name="maintenance_state_id"/>
                     <field name="maintenance_state_color"/>
                     <field name="employee_id"/>
+                    <field name="user_id"/>
                     <field name="criticality"/>
                     <field name="id" />
                     <templates>
@@ -128,7 +129,7 @@
                                         <a t-if="record.criticality.raw_value gt 1" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value lte 2" t-attf-title="#{record.criticality.value}" class="codup_attention_off"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value gt 2" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
-                                        <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                        <!-- <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/> -->
                                         </li>
                                     </ul>
                                 </div>
@@ -211,6 +212,7 @@
                 <kanban default_group_by="maintenance_state_id" create="false" delete="false">
                     <field name="maintenance_state_id"/>
                     <field name="maintenance_state_color"/>
+                    <field name="user_id"/>
                     <field name="employee_id"/>
                     <field name="criticality"/>
                     <field name="id" />
@@ -235,7 +237,7 @@
                                         <a t-if="record.criticality.raw_value gt 1" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value lte 2" t-attf-title="#{record.criticality.value}" class="codup_attention_off"><span class="fa fa-exclamation-triangle"/></a>
                                         <a t-if="record.criticality.raw_value gt 2" t-attf-title="#{record.criticality.value}" class="codup_attention_on"><span class="fa fa-exclamation-triangle"/></a>
-                                        <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                    <!--    <img t-att-src="kanban_image('hr.employee', 'image_small', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar"/> -->
                                         </li>
                                     </ul>
                                 </div>
