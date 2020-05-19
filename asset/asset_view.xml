@@ -85,6 +85,15 @@
                                     </group>
                                 </group>
                             </page>
+                            <page name="state" string="State">
+                                <group>
+                                    <field name='finance_state_id'/>
+                                    <field name='warehouse_state_id'/>
+                                    <field name='manufacture_state_id'/>
+                                    <field name='maintenance_state_id'/>
+                                    <field name='accounting_state_id'/>
+                                </group>
+                            </page>
                         </notebook>
                      </sheet>
                      <div class="oe_chatter">
