@@ -28,7 +28,7 @@ Support following feature:
     'license': 'AGPL-3',
     'category': 'Industries',
     'sequence': 0,
-    'depends': ['stock'],
+    'depends': ['stock', 'hr'],
     'demo': ['asset_demo.xml'],
     'data': [
         'security/asset_security.xml',

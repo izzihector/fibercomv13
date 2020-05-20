@@ -34,6 +34,7 @@
         'views/sale_order.xml',
         'views/account_move_views.xml',
         'views/product.xml',
+        'views/hr_employee_views.xml',
         'report/delivery_slip.xml',
         'report/purchase_order.xml',
         'report/report_account_stp.xml',
