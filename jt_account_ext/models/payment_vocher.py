@@ -28,7 +28,7 @@ from datetime import datetime, date
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    cv_number = fields.Integer(string='CV Number')
+    cv_number = fields.Char(string='CV Number')
     cv_date = fields.Date(string='CV date', default=fields.Date.today())
     prepared_by = fields.Char(string="Prepared By")
     verified_by = fields.Char(string="Verified By")

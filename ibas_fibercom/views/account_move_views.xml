@@ -13,7 +13,25 @@
             <xpath expr="//span[1]" position="replace">
                 <span class="o_form_label"><field name="type" attrs="{'invisible': ['|', ('type', '=', 'entry'), ('name', '=', '/')]}" readonly="1" nolabel="1"/></span>
             </xpath>
-      
+            
+            <xpath expr="//field[@name='ref']" position="before">
+                <field name="bus_style"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='invoice_user_id']" position="after">
+                <field name="approved_by"/>
+                <field name="received_by"/>
+            </xpath>
+            
+            <xpath expr="//page[@id='other_tab']/group[@id='other_tab_group']/group[@name='payments_info_group']" position="after">
+                <group string="Reporting" name="other_info_reporting" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}">
+                    <!--<field name="bs_no"/>-->
+                    <field name="sale_no"/>
+                    <field name="purchase_no"/>
+                    <field name="delivery_no"/>
+                </group>
+            </xpath>
+            
         </field>
     </record>
 

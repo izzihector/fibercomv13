@@ -46,7 +46,7 @@
                             <b>CV No. </b>
                         </td>
                         <td style="text-indent: 8px; text-align: left; width: 10%;">
-                            <span t-esc="'%.0f'%doc.cv_number"/>
+                            <span t-esc="doc.cv_number"/>
                         </td>
                     </tr>
                     <tr>
@@ -162,13 +162,13 @@
                                     <th style="text-align:left;">Totals</th>
                                     <th style="text-align:left;"></th>
                                     <th style="text-align:right;">
-                                        <t t-esc="untaxed"/>
+                                        <t t-esc="'{:,.2f}'.format(untaxed)"/>
                                     </th>
                                     <th style="text-align:right;">
-                                        <t t-esc="tax"/>
+                                        <t t-esc="'{:,.2f}'.format(tax)"/>
                                     </th>
                                     <th style="text-align:right;">
-                                        <t t-esc="total"/>
+                                        <t t-esc="'{:,.2f}'.format(total)"/>
                                     </th>
                                 </tr>
                             </table>
@@ -287,8 +287,8 @@
             <field name="orientation">Portrait</field>
             <field name="margin_top">3</field>
             <field name="margin_bottom">3</field>
-            <field name="margin_left">3</field>
-            <field name="margin_right">3</field>
+            <field name="margin_left">8</field>
+            <field name="margin_right">8</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">50</field>
             <field name="dpi">80</field>
