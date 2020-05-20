@@ -94,6 +94,13 @@ class StockPicking(models.Model):
         string='Project Code', compute='_compute_project', inverse='_inverse_project_code')
     project_area = fields.Char(
         string='Project Area', compute='_compute_project', inverse='_inverse_project_area')
+
+    project_code_store = fields.Char(
+        related='project_code', store=True, string="Project Code Store")
+
+    project_area_store = fields.Char(
+        related='project_area', store=True, string="Project Area Store")
+
     requested_by = fields.Char(
         related="sale_id.requested_by", string="Requested by")
     approved_by = fields.Char(

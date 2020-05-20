@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'stock', 'purchase'],
+    'depends': ['base', 'sale', 'stock', 'purchase', 'asset', 'hr'],
 
     # always loaded
     'data': [
@@ -34,6 +34,7 @@
         'views/sale_order.xml',
         'views/account_move_views.xml',
         'views/product.xml',
+        'views/hr_employee_views.xml',
         'report/delivery_slip.xml',
         'report/purchase_order.xml',
         'report/report_account_stp.xml',
