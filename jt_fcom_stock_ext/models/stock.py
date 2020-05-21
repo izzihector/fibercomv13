@@ -65,5 +65,16 @@ class StockMoveLine(models.Model):
     initial_demand_store = fields.Float(
         related='initial_demand', store=True, string='Demand')
 
+    # scheduled_date = fields.Datetime(
+    #    string='Scheduled Date', related='picking_id.scheduled_date')
+
     scheduled_date = fields.Datetime(
-        string='Scheduled Date', related='picking_id.scheduled_date')
+        string='Scheduled Date', compute='_compute_scheduled_date', store=True)
+
+    @api.depends('picking_id')
+    def _compute_scheduled_date(self):
+        for rec in self:
+            if self.picking_id:
+                self.update({
+                    'scheduled_date': rec.picking_id.scheduled_date
+                })
