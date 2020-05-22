@@ -7,12 +7,15 @@
 	        <field name="inherit_id" ref="purchase.purchase_order_form"/>
 	        <field name="arch" type="xml">
 	        	<xpath expr="//field[@name='company_id']" position="after">
-	        		<field name="prepared_by"/>
+	        		<field name="prepared_by" attrs="{'invisible': [('prepared_by','=',False)]}"/>
+                    <field name="prepared_by_id" attrs="{'invisible': [('prepared_by','!=',False)]}"/>
 	        		<field name="prepared_by_designation"/>
-	        		<field name="approved_by"/>
+	        		<field name="approved_by" attrs="{'invisible': [('approved_by','=',False)]}"/>
+                    <field name="approved_by_id" attrs="{'invisible': [('approved_by','!=',False)]}"/>
 	        		<field name="approved_by_designation"/>
 	        		<field name="noted_by"/>
-                    <field name="requested_by"/>
+                    <field name="requested_by" attrs="{'invisible': [('requested_by','=',False)]}"/>
+                    <field name="requested_by_id" attrs="{'invisible': [('requested_by','!=',False)]}"/>
                     <field name="requested_by_designation"/>
 	        	</xpath>
                 <xpath expr="//field[@name='currency_id']" position="after">
