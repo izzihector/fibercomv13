@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -12,6 +15,46 @@ class IbasEmployee(models.Model):
     first_name = fields.Char(string='First Name')
     middle_name = fields.Char(string='Middle Name')
     last_name = fields.Char(string='Last Name')
+
+    project = fields.Char(string='Project')
+    under_area_of = fields.Char(string='Under the Area of')
+
+    home_address = fields.Char(string='Home Adress')
+    personal_mobile_num = fields.Char(string='Personal Mobile Number')
+    age = fields.Integer(string='Age')
+
+    curr_employ_status = fields.Selection([
+        ('regular', 'Regular'),
+        ('project', 'Project-based')
+    ], string='Current Employment Status')
+
+    hire_from = fields.Date(string='Hire From')
+    hire_to = fields.Date(string='Hire To')
+    hire_date = fields.Date(string='Hire Date')
+    regular_date = fields.Date(string='Regular Date')
+    separate_date = fields.Date(string='Separate Date')
+    los = fields.Char(string='LOS', compute='_cal_los')
+    cut_off_date = fields.Date(string='Cut-off Date')
+
+    employee_number = fields.Char(string='Employee Number')
+    biometric_user_id = fields.Char(string='Biometric User ID')
+
+    tin = fields.Char(string='TIN')
+    sss = fields.Char(string='SSS')
+    philhealth = fields.Char(string='Philhealth')
+    pagibig = fields.Char(string='Pag-IBIG')
+
+    @api.depends('hire_date')
+    def _cal_los(self):
+        if self.hire_date:
+            years = relativedelta(date.today(), self.hire_date).years
+            months = relativedelta(date.today(), self.hire_date).months
+            day = relativedelta(date.today(), self.hire_date).days
+
+            self.los = str(int(years)) + ' Year/s ' + \
+                str(int(months)) + ' Month/s ' + str(day) + ' Day/s'
+        else:
+            self.los = ' '
 
     @api.onchange('last_name', 'first_name', 'middle_name')
     def employee_name_change(self):
