@@ -21,7 +21,13 @@ STATE_COLOR_SELECTION = [
     ('8', 'Orange'),
     ('9', 'SkyBlue')
 ]
-
+STATE_SCOPE_TEAM = [
+    ('0', 'Finance'),
+    ('1', 'Warehouse'),
+    ('2', 'Manufacture'),
+    ('3', 'Maintenance'),
+    ('4', 'Accounting')
+]
 
 class asset_state(models.Model):
     """ 
@@ -31,13 +37,7 @@ class asset_state(models.Model):
     _description = 'State of Asset'
     _order = "sequence"
 
-    STATE_SCOPE_TEAM = [
-        ('0', 'Finance'),
-        ('1', 'Warehouse'),
-        ('2', 'Manufacture'),
-        ('3', 'Maintenance'),
-        ('4', 'Accounting')
-    ]
+
 
     name = fields.Char('State', size=64, required=True, translate=True)
     sequence = fields.Integer(
@@ -112,6 +112,11 @@ class asset_asset(models.Model):
         ('3', 'Critical')
     ]
 
+    @api.model
+    def _default_currency(self):
+        return self.env.user.company_id.currency_id.id
+
+
     name = fields.Char('Asset Name', size=64, required=True, translate=True)
     finance_state_id = fields.Many2one(
         'asset.state', 'Finance State', domain=[('team', '=', '0')])
@@ -129,7 +134,8 @@ class asset_asset(models.Model):
     property_stock_asset = fields.Many2one(
         'stock.location', "Asset Location",
         company_dependent=True, domain=[('usage', 'like', 'asset')],
-        help="This location will be used as the destination location for installed parts during asset life.")
+        help="This location will be used as the destination location for installed parts during asset life.",
+        track_visibility='onchange')
     user_id = fields.Many2one(
         'res.users', 'User Assigned to', track_visibility='onchange')
     employee_id = fields.Many2one(
@@ -157,6 +163,27 @@ class asset_asset(models.Model):
         'maintenance_state_id': _read_group_maintenance_state_ids,
         'accounting_state_id': _read_group_accounting_state_ids,
     }
+
+    department_id = fields.Many2one('hr.department', string='Department', track_visibility='onchange')
+    team = fields.Selection(STATE_SCOPE_TEAM, 'Scope Team', track_visibility='onchange')
+
+    currency_id = fields.Many2one("res.currency", string="Currency", default=_default_currency)
+    property_number = fields.Char('Property Number', size=64)
+    part_number = fields.Char('Part Number', size=64)
+    acquisition_cost = fields.Monetary('Acquisition Cost')
+
+    property_description = fields.Char('Property Description')
+    processor = fields.Char('Processor')
+    memory = fields.Char('Memory')
+    storage = fields.Char('Storage')
+    optical_drive = fields.Char('Optical Drive')
+    graphics = fields.Char('Graphics')
+    display = fields.Char('Display')
+    operating_system = fields.Char('Operating System')
+    color = fields.Char('Color')
+    inclusion = fields.Char('Inclusion')
+    notes = fields.Text('Notes')
+
 
     @api.model
     def create(self, vals):
