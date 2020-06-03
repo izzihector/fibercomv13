@@ -29,6 +29,17 @@ STATE_SCOPE_TEAM = [
     ('4', 'Accounting')
 ]
 
+
+class asset_type(models.Model):
+    """ 
+    Model for asset types.
+    """
+    _name = 'asset.type'
+    _description = 'State of Type'
+
+    name = fields.Char('State', required=True, translate=True)
+
+
 class asset_state(models.Model):
     """ 
     Model for asset states.
@@ -36,8 +47,6 @@ class asset_state(models.Model):
     _name = 'asset.state'
     _description = 'State of Asset'
     _order = "sequence"
-
-
 
     name = fields.Char('State', size=64, required=True, translate=True)
     sequence = fields.Integer(
@@ -116,7 +125,6 @@ class asset_asset(models.Model):
     def _default_currency(self):
         return self.env.user.company_id.currency_id.id
 
-
     name = fields.Char('Asset Name', size=64, required=True, translate=True)
     finance_state_id = fields.Many2one(
         'asset.state', 'Finance State', domain=[('team', '=', '0')])
@@ -164,10 +172,13 @@ class asset_asset(models.Model):
         'accounting_state_id': _read_group_accounting_state_ids,
     }
 
-    department_id = fields.Many2one('hr.department', string='Department', track_visibility='onchange')
-    team = fields.Selection(STATE_SCOPE_TEAM, 'Scope Team', track_visibility='onchange')
+    department_id = fields.Many2one(
+        'hr.department', string='Department', track_visibility='onchange')
+    team = fields.Selection(STATE_SCOPE_TEAM, 'Scope Team',
+                            track_visibility='onchange')
 
-    currency_id = fields.Many2one("res.currency", string="Currency", default=_default_currency)
+    currency_id = fields.Many2one(
+        "res.currency", string="Currency", default=_default_currency)
     property_number = fields.Char('Property Number', size=64)
     part_number = fields.Char('Part Number', size=64)
     acquisition_cost = fields.Monetary('Acquisition Cost')
@@ -184,6 +195,21 @@ class asset_asset(models.Model):
     inclusion = fields.Char('Inclusion')
     notes = fields.Text('Notes')
 
+    # type
+    asset_type_id = fields.Many2one('asset.type', string="Asset Type")
+
+    # Asset Information
+    item_code = fields.Char(string='Item Code')
+    brand_serial_num = fields.Char(string='Brand/Serial Number')
+
+    # Tracking
+    date_released = fields.Date(string='Date Released')
+    out_issued = fields.Char(string='Out Issued #')
+    date_returned = fields.Date(string='Date Returned')
+    in_receipt = fields.Char(string='In Receipt #')
+
+    # Others
+    remarks = fields.Char(string='Remarks')
 
     @api.model
     def create(self, vals):
