@@ -137,7 +137,7 @@ class asset_asset(models.Model):
     accounting_state_id = fields.Many2one(
         'asset.state', 'Accounting State', domain=[('team', '=', '4')])
     maintenance_state_color = fields.Selection(
-        related='maintenance_state_id.state_color', selection=STATE_COLOR_SELECTION, string="Color", readonly=True)
+        related='maintenance_state_id.state_color', selection=STATE_COLOR_SELECTION, string="Colors", readonly=True)
     criticality = fields.Selection(CRITICALITY_SELECTION, 'Criticality')
     property_stock_asset = fields.Many2one(
         'stock.location', "Asset Location",
