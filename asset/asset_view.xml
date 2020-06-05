@@ -56,6 +56,7 @@
                         </group>
                         <group>
                             <group>
+                                <field name="asset_type_id"/>
                                 <field name="criticality"/>
                                 <field name="employee_id"/>
                             </group>
@@ -65,18 +66,31 @@
                         </group>
                         <notebook>
                             <page name="info" string="Info">
-                                <group string="Asset Information">
+                                <!-- Devices -->
+                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
                                     <group>
                                         <field name="property_number"/>
                                         <field name="part_number"/>
+                                    </group>
+                                    <group>
                                         <field name="serial"/>
                                         <field name="currency_id" invisible="1"/>
                                         <field name="acquisition_cost"/>
                                     </group>
+                                </group>
+                                <!-- Equipments -->
+                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
                                     <group>
+                                        <field name="item_code"/>
+                                       
+                                    </group>
+                                    <group>
+                                         <field name="brand_serial_num"/>
                                     </group>
                                 </group>
-                                <group string="Specification">
+
+                                <!-- Devices -->
+                                <group string="Specification"  attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
                                     <group>
                                         <field name="property_description"/>
                                         <field name="processor"/>
@@ -91,7 +105,9 @@
                                         <field name="color"/>
                                     </group>                                    
                                 </group>
-                                <group string="Warranty">
+
+                                <!-- Devices -->
+                                <group string="Warranty" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
                                     <group>
                                         <field name="manufacturer_id"/>
                                         <field name="start_date"/>
@@ -103,12 +119,30 @@
                                         <field name="warranty_end_date"/>
                                     </group>
                                 </group>
-                                <group string="Others">
+
+                                <group string="Tracking" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                    <group>
+                                       <field name="date_released"/>
+                                       <field name="out_issued"/>
+                                    </group>
+                                    <group>
+                                        <field name="date_returned"/>
+                                        <field name="in_receipt"/>
+                                    </group>
+                                </group>
+                                <!-- Devices -->
+                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
                                     <group>
                                         <field name="inclusion"/>
                                         <field name="notes"/>
                                     </group>
-                                </group>                                
+                                </group>  
+                                <!-- Equipments -->
+                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                    <group>
+                                        <field name="remarks" />
+                                    </group>
+                                </group>                                    
                             </page>
                             <page name="state" string="State">
                                 <group>
@@ -410,5 +444,30 @@
             groups="asset.group_mro_manager"
             sequence="100"/>
 
+        <!-- Asset Type Tree View -->
+        <record id="asset_type_tree_view" model="ir.ui.view">
+            <field name="name">asset.type.tree</field>
+            <field name="model">asset.type</field>
+            <field name="arch" type="xml">
+                <tree string="Asset Types" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_asset_type" model="ir.actions.act_window">
+            <field name="name">Asset Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">asset.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Asset Tags item -->
+        <menuitem name="Asset Types"
+            action="action_asset_type"
+            id="menu_asset_type"
+            parent="menu_maintenance_config"
+            groups="asset.group_mro_manager"
+            sequence="120"/>
  	</data>
 </openerp>
