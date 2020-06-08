@@ -273,6 +273,7 @@
     file="ibas_fibercom.report_purchaseorder"
 />
 
+<!-- Break -->
 
 <template id="report_purchaseorder_mats">
     <t t-call="ibas_fibercom.ibas_external_layout">
