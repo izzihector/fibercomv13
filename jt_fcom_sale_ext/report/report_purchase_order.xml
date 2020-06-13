@@ -52,6 +52,8 @@
                     </div>
                     <div class="col-6">
                         <p t-field="o.date_order" style="text-align: right;" t-options='{"format": "dd, MMMM yyyy"}'/>
+                        <p t-field="o.project_code" style="text-align: right;"/>
+                        <p t-field="o.project_site" style="text-align: right;"/>
                     </div>
                 </div>
                 <br/>
@@ -157,7 +159,8 @@
                         </table>
                     </div>
                 </div>
-
+                <p t-field="o.payment_term_id.name"/>
+                <p t-field="o.payment_term_id.note"/>
                 <p t-field="o.notes"/>
                 <br/><br/><br/>
                 <table border="0" class="table table-sm o_main_table" style="width: 80%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;">
@@ -254,6 +257,8 @@
                     </div>
                     <div class="col-6">
                         <p t-field="o.date_order" style="text-align: right;" t-options='{"format": "dd, MMMM yyyy"}'/>
+                        <p t-field="o.project_code" style="text-align: right;"/>
+                        <p t-field="o.project_site" style="text-align: right;"/>
                     </div>
                 </div>
                 <br/>
@@ -376,7 +381,8 @@
                         </table>
                     </div>
                 </div>
-
+                <p t-field="o.payment_term_id.name"/>
+                <p t-field="o.payment_term_id.note"/>
                 <p t-field="o.notes"/>
 
                 <br/><br/><br/>
