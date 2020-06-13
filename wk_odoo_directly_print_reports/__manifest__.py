@@ -17,7 +17,7 @@
   "name"                 :  "Print Odoo Reports via Zebra Printer",
   "summary"              :  """This module allows the user to directly print the reports via zebra printer instead of downloading as PDF.""",
   "category"             :  "Extra Tools",
-  "version"              :  "1.0.4",
+  "version"              :  "0.3",
   "author"               :  "Webkul Software Pvt. Ltd.",
   "license"              :  "Other proprietary",
   "website"              :  "https://store.webkul.com/",
@@ -37,5 +37,5 @@
   "price"                :  129,
   "currency"             :  "EUR",
   "pre_init_hook"        :  "pre_init_check",
-  "external_dependencies":  {'python': ['zplgrf']},
+  # "external_dependencies":  {'python': ['zplgrf']},
 }
