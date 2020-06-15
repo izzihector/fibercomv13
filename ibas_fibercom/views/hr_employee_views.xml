@@ -35,6 +35,7 @@
             <field name="hire_to" attrs="{'invisible': [('curr_employ_status', '!=', 'project')]}"/>
             <field name='hire_date'/>
             <field name='regular_date'/>
+            <field name='separation_date'/>
             <field name='los'/>
             <field name='cut_off_date'/>
             </xpath>

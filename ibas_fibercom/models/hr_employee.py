@@ -21,18 +21,19 @@ class IbasEmployee(models.Model):
 
     home_address = fields.Char(string='Home Adress')
     personal_mobile_num = fields.Char(string='Personal Mobile Number')
-    age = fields.Integer(string='Age')
+    age = fields.Integer(string='Age', compute='_cal_dob')
 
     curr_employ_status = fields.Selection([
         ('regular', 'Regular'),
-        ('project', 'Project-based')
+        ('project', 'Project-based'),
+        ('probationary', 'Probationary')
     ], string='Current Employment Status')
 
     hire_from = fields.Date(string='Hire From')
     hire_to = fields.Date(string='Hire To')
     hire_date = fields.Date(string='Hire Date')
     regular_date = fields.Date(string='Regular Date')
-    separate_date = fields.Date(string='Separate Date')
+    separation_date = fields.Date(string='Separation Date')
     los = fields.Char(string='LOS', compute='_cal_los')
     cut_off_date = fields.Date(string='Cut-off Date')
 
@@ -44,17 +45,38 @@ class IbasEmployee(models.Model):
     philhealth = fields.Char(string='Philhealth')
     pagibig = fields.Char(string='Pag-IBIG')
 
+
+    @api.depends('birthday')
+    def _cal_dob(self):
+        if self.birthday:
+            years = relativedelta(date.today(), self.birthday).years
+
+            self.age = int(years)
+        else:
+            self.age = 0
+
     @api.depends('hire_date')
     def _cal_los(self):
-        if self.hire_date:
+        if self.hire_date and not self.separation_date:
             years = relativedelta(date.today(), self.hire_date).years
             months = relativedelta(date.today(), self.hire_date).months
             day = relativedelta(date.today(), self.hire_date).days
-
             self.los = str(int(years)) + ' Year/s ' + \
                 str(int(months)) + ' Month/s ' + str(day) + ' Day/s'
+
+        elif self.hire_date and self.separation_date:
+                sep_years = relativedelta(self.separation_date, self.hire_date).years
+                sep_months = relativedelta(self.separation_date, self.hire_date).months
+                sep_day = relativedelta(self.separation_date, self.hire_date).days
+
+                self.los = str(int(sep_years)) + ' Year/s ' + \
+                    str(int(sep_months)) + ' Month/s ' + str(sep_day) + ' Day/s'        
+
         else:
             self.los = ' '
+
+
+        
 
     @api.onchange('last_name', 'first_name', 'middle_name')
     def employee_name_change(self):
