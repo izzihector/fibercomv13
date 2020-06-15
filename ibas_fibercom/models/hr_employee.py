@@ -26,7 +26,8 @@ class IbasEmployee(models.Model):
     curr_employ_status = fields.Selection([
         ('regular', 'Regular'),
         ('project', 'Project-based'),
-        ('probationary', 'Probationary')
+        ('probationary', 'Probationary'),
+        ('contract', 'Contractual')
     ], string='Current Employment Status')
 
     hire_from = fields.Date(string='Hire From')
@@ -44,7 +45,6 @@ class IbasEmployee(models.Model):
     sss = fields.Char(string='SSS')
     philhealth = fields.Char(string='Philhealth')
     pagibig = fields.Char(string='Pag-IBIG')
-
 
     @api.depends('birthday')
     def _cal_dob(self):
@@ -65,18 +65,17 @@ class IbasEmployee(models.Model):
                 str(int(months)) + ' Month/s ' + str(day) + ' Day/s'
 
         elif self.hire_date and self.separation_date:
-                sep_years = relativedelta(self.separation_date, self.hire_date).years
-                sep_months = relativedelta(self.separation_date, self.hire_date).months
-                sep_day = relativedelta(self.separation_date, self.hire_date).days
+            sep_years = relativedelta(
+                self.separation_date, self.hire_date).years
+            sep_months = relativedelta(
+                self.separation_date, self.hire_date).months
+            sep_day = relativedelta(self.separation_date, self.hire_date).days
 
-                self.los = str(int(sep_years)) + ' Year/s ' + \
-                    str(int(sep_months)) + ' Month/s ' + str(sep_day) + ' Day/s'        
+            self.los = str(int(sep_years)) + ' Year/s ' + \
+                str(int(sep_months)) + ' Month/s ' + str(sep_day) + ' Day/s'
 
         else:
             self.los = ' '
-
-
-        
 
     @api.onchange('last_name', 'first_name', 'middle_name')
     def employee_name_change(self):
