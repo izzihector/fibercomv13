@@ -8,10 +8,14 @@
             <xpath expr="//group[2]/field[@name='payment_method_id']" position="after">
                 <field name="cv_date"/>
                 <field name="cv_number" attrs="{'invisible': [('partner_type','=','customer')]}"/>
-                <field name="prepared_by"/>
-                <field name="verified_by"/>
-                <field name="approved_by"/>
-                <field name="recieved_by"/>
+                <field name="prepared_by" attrs="{'invisible': [('prepared_by','=',False)]}"/>
+                <field name="verified_by" attrs="{'invisible': [('verified_by','=',False)]}"/>
+                <field name="approved_by" attrs="{'invisible': [('approved_by','=',False)]}"/>
+                <field name="recieved_by" attrs="{'invisible': [('recieved_by','=',False)]}"/>
+                <field name="prepared_by_id" attrs="{'invisible': [('prepared_by','!=',False)]}"/>
+                <field name="verified_by_id" attrs="{'invisible': [('verified_by','!=',False)]}"/>
+                <field name="approved_by_id" attrs="{'invisible': [('approved_by','!=',False)]}"/>
+                <field name="received_by_id" attrs="{'invisible': [('recieved_by','!=',False)]}"/>
                 <field name="invoices_ref" invisible="1" force_save="1"/>
             </xpath>
             <!-- <xpath expr="//group[1]" position="after">
