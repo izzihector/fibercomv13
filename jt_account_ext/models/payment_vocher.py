@@ -36,6 +36,11 @@ class AccountPayment(models.Model):
     recieved_by = fields.Char(string="Received By")
     invoices_ref = fields.Text(
         string='Invoices Ref', store=True, compute="_compute_invoices_ref")
+    
+    prepared_by_id = fields.Many2one('hr.employee', string="Prepared By")
+    verified_by_id = fields.Many2one('hr.employee', string="Verified By")
+    approved_by_id = fields.Many2one('hr.employee', string="Approved By")
+    received_by_id = fields.Many2one('hr.employee', string="Received By")
 
     def get_currency_word(self):
         return self.currency_id.amount_to_text(self.amount)
