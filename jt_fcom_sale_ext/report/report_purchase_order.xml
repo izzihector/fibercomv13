@@ -159,11 +159,101 @@
                         </table>
                     </div>
                 </div>
-                <p t-field="o.payment_term_id.name"/>
-                <p t-field="o.payment_term_id.note"/>
-                <p t-field="o.notes"/>
-                <br/><br/><br/>
+                <p>
+                    <span t-field="o.payment_term_id.name"/> <br/>
+                    <span t-field="o.payment_term_id.note"/> <br/>
+                    <span t-field="o.notes"/> 
+                </p>
+                <br/><br/>
                 <table border="0" class="table table-sm o_main_table" style="width: 80%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                    <p>Prepared By:</p>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                    <p>Prepared By:</p>
+                                </t>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.approved_by">
+                                    <p>Approved By:</p>
+                                </t>
+                                <t t-elif="o.approved_by_id">
+                                    <p>Approved By:</p>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                <strong><span t-field="o.prepared_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                <strong><span t-field="o.prepared_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.prepared_by_designation"/>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                <strong><span t-field="o.approved_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                <strong><span t-field="o.approved_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.approved_by_designation"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <![CDATA[&nbsp;]]>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <![CDATA[&nbsp;]]>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.noted_by">
+                                    <p>Noted By:</p>
+                                </t>
+                                <t t-elif="o.noted_by_id">
+                                    <p>Noted By:</p>
+                                </t>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.requested_by">
+                                    <p>Requested By:</p>
+                                </t>
+                                <t t-elif="o.requested_by_id">
+                                    <p>Requested By:</p>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.noted_by">
+                                <strong><span t-field="o.noted_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.noted_by_id">
+                                <strong><span t-field="o.noted_by_id"/></strong> <br/>
+                                </t>
+                                
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.requested_by">
+                                <strong><span t-field="o.requested_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.requested_by_id">
+                                <strong><span t-field="o.requested_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.requested_by_designation"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+               <!-- <table border="0" class="table table-sm o_main_table" style="width: 80%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;">
                     <tbody>
                         <tr>
                             <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
@@ -171,7 +261,7 @@
                                     <p>Prepared By:</p>
                                     <p>
                                         <br />
-                                        <strong><span t-field="o.prepared_by"/></strong>
+                                        <strong><span t-field="o.prepared_bys"/></trong>
                                         <br />
                                         <span t-field="o.prepared_by_designation"/>
                                     </p>
@@ -202,7 +292,7 @@
                                 <p></p>
 
                                 <t t-if="not company">
-                                    <!-- Multicompany -->
+
                                     <t t-if="company_id">
                                         <t t-set="company" t-value="company_id"/>
                                     </t>
@@ -235,7 +325,7 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
                 <div class="oe_structure"/>
             </div>
         </t>
@@ -381,75 +471,100 @@
                         </table>
                     </div>
                 </div>
-                <p t-field="o.payment_term_id.name"/>
-                <p t-field="o.payment_term_id.note"/>
-                <p t-field="o.notes"/>
-
-                <br/><br/><br/>
-
-                            <table border="0" class="table table-sm o_main_table" style="width: 80%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
-                                            <t t-if="o.prepared_by">
-                                            <p>Prepared By:</p>
-                                            <p>
-                                                <br />
-                                                <strong><span t-field="o.prepared_by"/></strong>
-                                                <br />
-                <span t-field="o.prepared_by_designation"/></p></t>
-                                        </td>
-                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
-                                            <t t-if="o.approved_by">
-                                        <p></p>
-                                        <p>Approved By:</p>
-                                        <p>
-                                            <br />
-                                            <strong><span t-field="o.approved_by"/></strong>
-                                            <br />
-                <span t-field="o.approved_by_designation"/></p></t>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <t t-if="not company">
-                                        <!-- Multicompany -->
-                                        <t t-if="company_id">
-                                            <t t-set="company" t-value="company_id"/>
-                                        </t>
-                                        <t t-elif="o and 'company_id' in o">
-                                            <t t-set="company" t-value="o.company_id.sudo()"/>
-                                        </t>
-                                        <t t-else="else">
-                                            <t t-set="company" t-value="res_company"/>
-                                        </t>
-                                    </t>
-                                    <t t-set="current_company" t-value="request.env['res.partner'].sudo().check_company_name(company)"/>
-                                    <t t-if="current_company == 'Fibercom'">
-                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
-                                            <t t-if="o.noted_by">Noted By:<br />
-                                                <br />
-                                                <br />
-                                                <span t-field="o.noted_by"/>
-                                            </t>
-                                        </td>
-                                    </t>
-                                    <t t-if="current_company == 'Fibercom'">
-                                        <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none"><p></p>
-                                            <t t-if="o.requested_by">
-                                                <p>Requested by:</p>
-                                                <p>
-                                                    <br/>
-                                                    <strong><span t-field="o.requested_by"/></strong>
-                                                    <br />
-                                                    <span t-field="o.requested_by_designation"/>
-                                                </p>
-                                            </t>
-                                        </td>
-                                    </t>
-                                    <p></p>
-                            </tr>
-                        </tbody>
-                    </table>
+                <p>
+                    <span t-field="o.payment_term_id.name"/> <br/>
+                    <span t-field="o.payment_term_id.note"/> <br/>
+                    <span t-field="o.notes"/> 
+                </p>
+                <br/><br/>
+                <table border="0" class="table table-sm o_main_table" style="width: 80%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                    <p>Prepared By:</p>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                    <p>Prepared By:</p>
+                                </t>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.approved_by">
+                                    <p>Approved By:</p>
+                                </t>
+                                <t t-elif="o.approved_by_id">
+                                    <p>Approved By:</p>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                <strong><span t-field="o.prepared_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                <strong><span t-field="o.prepared_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.prepared_by_designation"/>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.prepared_by">
+                                <strong><span t-field="o.approved_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.prepared_by_id">
+                                <strong><span t-field="o.approved_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.approved_by_designation"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <![CDATA[&nbsp;]]>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <![CDATA[&nbsp;]]>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.noted_by">
+                                    <p>Noted By:</p>
+                                </t>
+                                <t t-elif="o.noted_by_id">
+                                    <p>Noted By:</p>
+                                </t>
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.requested_by">
+                                    <p>Requested By:</p>
+                                </t>
+                                <t t-elif="o.requested_by_id">
+                                    <p>Requested By:</p>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.noted_by">
+                                <strong><span t-field="o.noted_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.noted_by_id">
+                                <strong><span t-field="o.noted_by_id"/></strong> <br/>
+                                </t>
+                                
+                            </td>
+                            <td style="width: 50%;border-right:none;border-left:none;border-bottom:none;border-top:none">
+                                <t t-if="o.requested_by">
+                                <strong><span t-field="o.requested_by"/></strong> <br/>
+                                </t>
+                                <t t-elif="o.requested_by_id">
+                                <strong><span t-field="o.requested_by_id"/></strong> <br/>
+                                </t>
+                                <span t-field="o.requested_by_designation"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <div class="oe_structure"/>
             </div>
