@@ -12,7 +12,8 @@
 
             <xpath expr="//field[@name='location_id']" position="after">
                 <field name="subcon" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
-                <field name="project_code" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                <field name="project_code" attrs="{'invisible': ['|',('picking_type_code', '!=', 'outgoing'),('project_code','=',False)]}"/>
+                <field name="project_code_id" attrs="{'invisible': ['|',('picking_type_code', '!=', 'outgoing'),('project_code','!=',False)]}"/>
                 <field name="project_area" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
             </xpath>
 
