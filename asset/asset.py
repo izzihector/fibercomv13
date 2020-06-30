@@ -190,7 +190,17 @@ class asset_asset(models.Model):
     optical_drive = fields.Char('Optical Drive')
     graphics = fields.Char('Graphics')
     display = fields.Char('Display')
+
+    # Specifications
+    ram = fields.Char('RAM')
+    gpu = fields.Char('GPU')
+    odd = fields.Char('ODD')
+    hdd = fields.Char('HDD')
+    hdd_serial_no = fields.Char('HDD Serial No.')
+    ssd_serial_no = fields.Char('SDD Serial No.')
     operating_system = fields.Char('Operating System')
+    os_product_key = fields.Char('Operating System Product Key')
+
     color = fields.Char('Color')
     inclusion = fields.Char('Inclusion')
     notes = fields.Text('Notes')
@@ -216,7 +226,6 @@ class asset_asset(models.Model):
         })
         return True
 
-
     def state_defective(self):
         self.update({
             'state': 'defective'
@@ -227,7 +236,7 @@ class asset_asset(models.Model):
     # type
     # asset_type_id = fields.Many2one('asset.type', string="Asset Type")
     asset_type = fields.Selection(
-        [('device', 'Device'), ('equipment', 'Equipment')], string="Asset Type")
+        [('device', 'Device'), ('equipment', 'Equipment'), ('laptop', 'Laptop'), ('desktop', 'Desktop')], string="Asset Type")
 
     # Asset Information
     item_code = fields.Char(string='Item Code')

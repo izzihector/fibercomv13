@@ -55,11 +55,12 @@
                         <group>
                             <field name="property_stock_asset" domain="[('usage','=','asset')]"/>
                             <field name="department_id" />
+                            <field name="employee_id"/>
                         </group>
                         <group>
                             <group>
                                 <field name="asset_type"/>
-                                <field name="employee_id"/>
+                                
                             </group>
                             <group>
                                 <field name="active"/>
@@ -118,8 +119,9 @@
                                 <!-- Devices -->
                                 <group string="Others">
                                     <group>
-                                        <!--<field name="inclusion"/> -->
-                                        <field name="notes"/>
+                                        <field name="remarks" string="Notes"/>
+                                        <field name="inclusion"/>
+                                        <!-- <field name="notes"/> -->
                                     </group>
                                 </group>  
                                 <!-- Equipments -->
@@ -139,19 +141,18 @@
                                 </group>
                             </page> -->
                             <page name="specifications" string="Specifications">
-                                <group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'laptop'), ('asset_type', '!=', 'desktop')]}">
                                     <group>
-                                        <field name="property_description"/>
-                                        <field name="processor"/>
-                                        <field name="memory"/>
-                                        <field name="storage"/>
-                                        <field name="optical_drive"/>
+                                        <field name="ram"/>
+                                        <field name="gpu"/>
+                                        <field name="odd"/>
+                                        <field name="hdd"/> 
                                     </group>
                                     <group>
-                                        <field name="graphics"/>
-                                        <field name="display"/>
+                                        <field name="hdd_serial_no"/>
+                                        <field name="ssd_serial_no"/>
                                         <field name="operating_system"/>
-                                        <field name="color"/>
+                                        <field name="os_product_key"/> 
                                     </group>                                    
                                 </group>
                             </page>
