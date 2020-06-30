@@ -36,7 +36,10 @@
             <field name="arch" type="xml">
                 <form string="Assets" version="7.0">
                     <header>
-                        <field name="maintenance_state_id" widget="statusbar" clickable="True" groups="asset.group_mro_user"/>
+                       <!-- <field name="maintenance_state_id" widget="statusbar" clickable="True" groups="asset.group_mro_user"/> -->
+                        <button name="state_good" states="defective" string="GOOD" type="object"  class="btn-primary" confirm="This Item status will be changed. Are you sure you want to continue?"/>
+                        <button name="state_defective" states="good" string="DEFECTIVE" type="object"  class="btn-primary" confirm="This Item status will be changed. Are you sure you want to continue?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="good,defective" statusbar_colors='{"good":"green", "defective","red"}'/>
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
@@ -56,7 +59,7 @@
                         </group>
                         <group>
                             <group>
-                                <field name="asset_type_id"/>
+                                <field name="asset_type"/>
                                 <field name="criticality"/>
                                 <field name="employee_id"/>
                             </group>
@@ -67,7 +70,7 @@
                         <notebook>
                             <page name="info" string="Info">
                                 <!-- Devices -->
-                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Asset Information" attrs="{'invisible': [('asset_type', '!=', 'device')]}">
                                     <group>
                                         <field name="property_number"/>
                                         <field name="part_number"/>
@@ -79,7 +82,7 @@
                                     </group>
                                 </group>
                                 <!-- Equipments -->
-                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <group string="Asset Information" attrs="{'invisible': [('asset_type', '!=', 'equipment')]}">
                                     <group>
                                         <field name="item_code"/>
                                        
@@ -90,7 +93,7 @@
                                 </group>
 
                                 <!-- Devices -->
-                                <group string="Specification"  attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Specification"  attrs="{'invisible': [('asset_type', '!=', 'device')]}">
                                     <group>
                                         <field name="property_description"/>
                                         <field name="processor"/>
@@ -107,7 +110,7 @@
                                 </group>
 
                                 <!-- Devices -->
-                                <group string="Warranty" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Warranty" attrs="{'invisible': [('asset_type', '!=', 'device')]}">
                                     <group>
                                         <field name="manufacturer_id"/>
                                         <field name="start_date"/>
@@ -120,7 +123,7 @@
                                     </group>
                                 </group>
 
-                                <group string="Tracking" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <group string="Tracking" attrs="{'invisible': [('asset_type', '!=', 'equipment')]}">
                                     <group>
                                        <field name="date_released"/>
                                        <field name="out_issued"/>
@@ -131,14 +134,14 @@
                                     </group>
                                 </group>
                                 <!-- Devices -->
-                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Others" attrs="{'invisible': [('asset_type', '!=', 'device')]}">
                                     <group>
                                         <field name="inclusion"/>
                                         <field name="notes"/>
                                     </group>
                                 </group>  
                                 <!-- Equipments -->
-                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <group string="Others" attrs="{'invisible': [('asset_type', '!=', 'equipment')]}">
                                     <group>
                                         <field name="remarks" />
                                     </group>
