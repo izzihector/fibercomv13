@@ -145,15 +145,38 @@
                                     <group>
                                         <field name="ram"/>
                                         <field name="gpu"/>
-                                        <field name="odd"/>
                                         <field name="hdd"/> 
+                                        <field name="hdd_serial_no"/>
                                     </group>
                                     <group>
-                                        <field name="hdd_serial_no"/>
                                         <field name="ssd_serial_no"/>
+                                        <field name="odd"/>
                                         <field name="operating_system"/>
                                         <field name="os_product_key"/> 
-                                    </group>                                    
+                                    </group>       
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'monitor')]}">
+                                    <group>
+                                        <field name="monitor_type"/>
+                                        <field name="monitor_size"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'network')]}">
+                                    <group>
+                                        <field name="network_type"/>
+                                        <field name="network_mac_add"/>
+                                        <field name="network_local"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'printer')]}">
+                                    <group>
+                                        <field name="printer_type"/>
+                                        <field name="location_function"/>
+                                    </group>
+                                    <group>
+                                        <field name="geographic_division"/>
+                                        <field name="exact_address"/>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>

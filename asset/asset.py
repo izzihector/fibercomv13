@@ -192,18 +192,37 @@ class asset_asset(models.Model):
     display = fields.Char('Display')
 
     # Specifications
+    # Laptop #Desktop
     ram = fields.Char('RAM')
     gpu = fields.Char('GPU')
     odd = fields.Char('ODD')
     hdd = fields.Char('HDD')
     hdd_serial_no = fields.Char('HDD Serial No.')
-    ssd_serial_no = fields.Char('SDD Serial No.')
+    ssd_serial_no = fields.Char('SSD Serial No.')
     operating_system = fields.Char('Operating System')
     os_product_key = fields.Char('Operating System Product Key')
 
     color = fields.Char('Color')
     inclusion = fields.Char('Inclusion')
     notes = fields.Text('Notes')
+
+    # Monitor
+
+    monitor_type = fields.Char('Type')
+    monitor_size = fields.Char('Size')
+
+    # Network
+
+    network_type = fields.Char('Type')
+    network_mac_add = fields.Char('MAC Address')
+    network_local = fields.Char('Local')
+
+    # Printer
+
+    printer_type = fields.Char('Type')
+    location_function = fields.Char('Location Function')
+    geographic_division = fields.Char('Geographic Division')
+    exact_address = fields.Char('Exact Address')
 
     # status
     STATE_CONDITION = [
@@ -235,8 +254,15 @@ class asset_asset(models.Model):
 
     # type
     # asset_type_id = fields.Many2one('asset.type', string="Asset Type")
-    asset_type = fields.Selection(
-        [('device', 'Device'), ('equipment', 'Equipment'), ('laptop', 'Laptop'), ('desktop', 'Desktop')], string="Asset Type")
+    asset_type = fields.Selection([
+        ('device', 'Device'),
+        ('equipment', 'Equipment'),
+        ('laptop', 'Laptop'),
+        ('desktop', 'Desktop'),
+        ('monitor', 'Monitor'),
+        ('network', 'Network'),
+        ('printer', 'Printer'),
+    ], string="Asset Type")
 
     # Asset Information
     item_code = fields.Char(string='Item Code')
