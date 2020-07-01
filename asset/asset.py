@@ -195,8 +195,31 @@ class asset_asset(models.Model):
     inclusion = fields.Char('Inclusion')
     notes = fields.Text('Notes')
 
+    # status
+    STATE_CONDITION = [
+        ('good', 'Good'),
+        ('defective', 'Defective'),
+    ]
+    state = fields.Selection(
+        STATE_CONDITION, string='Status', default='good', track_visibility='onchange')
+
+    def state_good(self):
+        self.update({
+            'state': 'good'
+        })
+        return True
+
+    def state_defective(self):
+        self.update({
+            'state': 'defective'
+        })
+
+        return True
+
     # type
-    asset_type_id = fields.Many2one('asset.type', string="Asset Type")
+    #asset_type_id = fields.Many2one('asset.type', string="Asset Type")
+    asset_type = fields.Selection(
+        [('device', 'Device'), ('equipment', 'Equipment')], string="Asset Type")
 
     # Asset Information
     item_code = fields.Char(string='Item Code')
