@@ -184,7 +184,7 @@ class asset_asset(models.Model):
     acquisition_cost = fields.Monetary('Acquisition Cost')
 
     property_description = fields.Char('Property Description')
-    processor = fields.Char('Processor')
+
     memory = fields.Char('Memory')
     storage = fields.Char('Storage')
     optical_drive = fields.Char('Optical Drive')
@@ -193,8 +193,12 @@ class asset_asset(models.Model):
 
     # Specifications
     # Laptop #Desktop
+    lvl = fields.Char('LVL')
+    processor = fields.Char('Processor')
+    motherboard = fields.Char('Motherboard')
     ram = fields.Char('RAM')
     gpu = fields.Char('GPU')
+    screen = fields.Char('Screen')
     odd = fields.Char('ODD')
     hdd = fields.Char('HDD')
     hdd_serial_no = fields.Char('HDD Serial No.')
@@ -208,18 +212,28 @@ class asset_asset(models.Model):
 
     # Monitor
 
-    monitor_type = fields.Char('Type')
+    monitor_type = fields.Char('Monitor Type')
     monitor_size = fields.Char('Size')
 
     # Network
 
-    network_type = fields.Char('Type')
-    network_mac_add = fields.Char('MAC Address')
-    network_local = fields.Char('Local')
+    network_type = fields.Char('Network Type')
+    network_sim_card = fields.Char('Network Sim Card')
+    sim_card_serial_number = fields.Char('Sim Card Serial Number')
+    mobile_number = fields.Char('Mobile Number')
+
+    # IP Phone
+
+    ip_phone_type = fields.Char('IP Phone Type')
+    ip_phone_mac_add = fields.Char('MAC Address')
+    ip_phone_local = fields.Char('Local')
 
     # Printer
 
-    printer_type = fields.Char('Type')
+    acquisition_type = fields.Char('Acquisition Type')
+    printer_type = fields.Char('Printer Type')
+    printer_mac_add = fields.Char('MAC Address')
+    printer_ip_add = fields.Char('IP Address')
     location_function = fields.Char('Location Function')
     geographic_division = fields.Char('Geographic Division')
     exact_address = fields.Char('Exact Address')
@@ -261,6 +275,7 @@ class asset_asset(models.Model):
         ('desktop', 'Desktop'),
         ('monitor', 'Monitor'),
         ('network', 'Network'),
+        ('ip_phone', 'IP Phone'),
         ('printer', 'Printer'),
     ], string="Asset Type")
 

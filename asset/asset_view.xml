@@ -20,10 +20,12 @@
             <field name="model">asset.asset</field>
             <field name="arch" type="xml">
                 <tree string="Assets">
-                    <field name="asset_number"/>
+                    <field name="item_code"/>
                     <field name="name"/>
-                    <field name="property_stock_asset"/>
+                    <field name="serial"/>
                     <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="property_stock_asset"/>
                 </tree>
             </field>
         </record>
@@ -143,12 +145,16 @@
                             <page name="specifications" string="Specifications">
                                 <group attrs="{'invisible': [('asset_type', '!=', 'laptop'), ('asset_type', '!=', 'desktop')]}">
                                     <group>
+                                        <field name="lvl"/>
+                                        <field name="processor"/>
+                                        <field name="motherboard"/>
                                         <field name="ram"/>
                                         <field name="gpu"/>
-                                        <field name="hdd"/> 
-                                        <field name="hdd_serial_no"/>
+                                        <field name="screen"/> 
                                     </group>
                                     <group>
+                                        <field name="hdd"/> 
+                                        <field name="hdd_serial_no"/>
                                         <field name="ssd_serial_no"/>
                                         <field name="odd"/>
                                         <field name="operating_system"/>
@@ -161,23 +167,37 @@
                                         <field name="monitor_size"/>
                                     </group>
                                 </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'ip_phone')]}">
+                                    <group>
+                                        <field name="ip_phone_type"/>
+                                        <field name="ip_phone_mac_add"/>
+                                        <field name="ip_phone_local"/>
+                                    </group>
+                                </group>
                                 <group attrs="{'invisible': [('asset_type', '!=', 'network')]}">
                                     <group>
                                         <field name="network_type"/>
-                                        <field name="network_mac_add"/>
-                                        <field name="network_local"/>
+                                    </group>
+                                    <group string="Other Details">
+                                        <field name="network_sim_card"/>
+                                        <field name="sim_card_serial_number"/>
+                                        <field name="mobile_number"/>
                                     </group>
                                 </group>
                                 <group attrs="{'invisible': [('asset_type', '!=', 'printer')]}">
-                                    <group>
-                                        <field name="printer_type"/>
-                                        <field name="location_function"/>
-                                    </group>
-                                    <group>
-                                        <field name="geographic_division"/>
-                                        <field name="exact_address"/>
-                                    </group>
+                                        <group>
+                                            <field name="acquisition_type"/>
+                                            <field name="printer_type"/>
+                                            <field name="printer_mac_add"/>
+                                            <field name="printer_ip_add"/>
+                                        </group>
+                                        <group string="Deployment Information">
+                                            <field name="location_function"/>
+                                            <field name="geographic_division"/>
+                                            <field name="exact_address"/>
+                                        </group>
                                 </group>
+                                
                             </page>
                         </notebook>
                      </sheet>
