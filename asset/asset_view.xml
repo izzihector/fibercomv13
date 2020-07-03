@@ -20,11 +20,12 @@
             <field name="model">asset.asset</field>
             <field name="arch" type="xml">
                 <tree string="Assets">
-                    <field name="asset_number"/>
+                    <field name="item_code"/>
                     <field name="name"/>
-                    <field name="property_stock_asset"/>
-                    <field name="criticality"/>
+                    <field name="serial"/>
                     <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="property_stock_asset"/>
                 </tree>
             </field>
         </record>
@@ -36,7 +37,11 @@
             <field name="arch" type="xml">
                 <form string="Assets" version="7.0">
                     <header>
-                        <field name="maintenance_state_id" widget="statusbar" clickable="True" groups="asset.group_mro_user"/>
+                       <!-- <field name="maintenance_state_id" widget="statusbar" clickable="True" groups="asset.group_mro_user"/> -->
+                        <button name="state_stock" states="use,defective" string="IN STOCK" type="object"  class="btn-primary" confirm="This Item status will be changed. Are you sure you want to continue?"/>
+                        <button name="state_use" states="stock,defective" string="IN USE" type="object"  class="btn-primary" confirm="This Item status will be changed. Are you sure you want to continue?"/>
+                        <button name="state_defective" states="stock,use" string="DEFECTIVE" type="object"  class="btn-primary" confirm="This Item status will be changed. Are you sure you want to continue?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="stock,use,defective" statusbar_colors='{"stock":"blue","use":"green", "defective","red"}'/>
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
@@ -52,13 +57,12 @@
                         <group>
                             <field name="property_stock_asset" domain="[('usage','=','asset')]"/>
                             <field name="department_id" />
-                            <field name="team" />
+                            <field name="employee_id"/>
                         </group>
                         <group>
                             <group>
-                                <field name="asset_type_id"/>
-                                <field name="criticality"/>
-                                <field name="employee_id"/>
+                                <field name="asset_type"/>
+                                
                             </group>
                             <group>
                                 <field name="active"/>
@@ -67,7 +71,7 @@
                         <notebook>
                             <page name="info" string="Info">
                                 <!-- Devices -->
-                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <!--<group string="Asset Information" attrs="{'invisible': [('asset_type', '!=', 'device')]}">
                                     <group>
                                         <field name="property_number"/>
                                         <field name="part_number"/>
@@ -77,12 +81,13 @@
                                         <field name="currency_id" invisible="1"/>
                                         <field name="acquisition_cost"/>
                                     </group>
-                                </group>
+                                </group> -->
+
                                 <!-- Equipments -->
-                                <group string="Asset Information" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <group string="Asset Information">
                                     <group>
                                         <field name="item_code"/>
-                                       
+                                        <field name="serial"/>
                                     </group>
                                     <group>
                                          <field name="brand_serial_num"/>
@@ -90,24 +95,7 @@
                                 </group>
 
                                 <!-- Devices -->
-                                <group string="Specification"  attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
-                                    <group>
-                                        <field name="property_description"/>
-                                        <field name="processor"/>
-                                        <field name="memory"/>
-                                        <field name="storage"/>
-                                        <field name="optical_drive"/>
-                                    </group>
-                                    <group>
-                                        <field name="graphics"/>
-                                        <field name="display"/>
-                                        <field name="operating_system"/>
-                                        <field name="color"/>
-                                    </group>                                    
-                                </group>
-
-                                <!-- Devices -->
-                                <group string="Warranty" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Warranty">
                                     <group>
                                         <field name="manufacturer_id"/>
                                         <field name="start_date"/>
@@ -120,7 +108,7 @@
                                     </group>
                                 </group>
 
-                                <group string="Tracking" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <group string="Tracking">
                                     <group>
                                        <field name="date_released"/>
                                        <field name="out_issued"/>
@@ -131,20 +119,21 @@
                                     </group>
                                 </group>
                                 <!-- Devices -->
-                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 1)]}">
+                                <group string="Others">
                                     <group>
+                                        <field name="remarks" string="Notes"/>
                                         <field name="inclusion"/>
-                                        <field name="notes"/>
+                                        <!-- <field name="notes"/> -->
                                     </group>
                                 </group>  
                                 <!-- Equipments -->
-                                <group string="Others" attrs="{'invisible': [('asset_type_id', '!=', 2)]}">
+                                <!--<group string="Others" attrs="{'invisible': [('asset_type', '!=', 'equipment')]}">
                                     <group>
                                         <field name="remarks" />
                                     </group>
-                                </group>                                    
+                                </group>  -->                                  
                             </page>
-                            <page name="state" string="State">
+                           <!-- <page name="state" string="State">
                                 <group>
                                     <field name='finance_state_id'/>
                                     <field name='warehouse_state_id'/>
@@ -152,6 +141,63 @@
                                     <field name='maintenance_state_id'/>
                                     <field name='accounting_state_id'/>
                                 </group>
+                            </page> -->
+                            <page name="specifications" string="Specifications">
+                                <group attrs="{'invisible': [('asset_type', '!=', 'laptop'), ('asset_type', '!=', 'desktop')]}">
+                                    <group>
+                                        <field name="lvl"/>
+                                        <field name="processor"/>
+                                        <field name="motherboard"/>
+                                        <field name="ram"/>
+                                        <field name="gpu"/>
+                                        <field name="screen"/> 
+                                    </group>
+                                    <group>
+                                        <field name="hdd"/> 
+                                        <field name="hdd_serial_no"/>
+                                        <field name="ssd_serial_no"/>
+                                        <field name="odd"/>
+                                        <field name="operating_system"/>
+                                        <field name="os_product_key"/> 
+                                    </group>       
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'monitor')]}">
+                                    <group>
+                                        <field name="monitor_type"/>
+                                        <field name="monitor_size"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'ip_phone')]}">
+                                    <group>
+                                        <field name="ip_phone_type"/>
+                                        <field name="ip_phone_mac_add"/>
+                                        <field name="ip_phone_local"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'network')]}">
+                                    <group>
+                                        <field name="network_type"/>
+                                    </group>
+                                    <group string="Other Details">
+                                        <field name="network_sim_card"/>
+                                        <field name="sim_card_serial_number"/>
+                                        <field name="mobile_number"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'invisible': [('asset_type', '!=', 'printer')]}">
+                                        <group>
+                                            <field name="acquisition_type"/>
+                                            <field name="printer_type"/>
+                                            <field name="printer_mac_add"/>
+                                            <field name="printer_ip_add"/>
+                                        </group>
+                                        <group string="Deployment Information">
+                                            <field name="location_function"/>
+                                            <field name="geographic_division"/>
+                                            <field name="exact_address"/>
+                                        </group>
+                                </group>
+                                
                             </page>
                         </notebook>
                      </sheet>
@@ -169,19 +215,18 @@
             <field name="model">asset.asset</field>
             <field name="arch" type="xml">
                 <kanban>
-                    <field name="maintenance_state_id"/>
-                    <field name="maintenance_state_color"/>
+                   <!-- <field name="maintenance_state_id"/> -->
+                   <!-- <field name="maintenance_state_color"/> -->
                     <field name="employee_id"/>
                     <field name="user_id"/>
                     <field name="image_small"/>
-                    <field name="criticality"/>
                     <field name="id" />
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_vignette">
                                 <div class="codup_kanban_left">
                                     <a type="open"><img t-att-src="kanban_image('asset.asset', 'image_small', record.id.value)" class="oe_kanban_image" alt="image"/></a>
-                                    <div t-attf-title="#{record.maintenance_state_id.value}" t-attf-class="codup_status_color_#{record.maintenance_state_color.raw_value} codup_status"></div>
+                                  <!-- <div t-attf-title="#{record.maintenance_state_id.value}" t-attf-class="codup_status_color_#{record.maintenance_state_color.raw_value} codup_status"></div> -->
                                 </div>
                                 <div class="oe_kanban_details">
                                     <h4>
@@ -218,7 +263,6 @@
                     <field name="asset_number"/>
                     <field name="name"/>
                     <field name="property_stock_asset"/>
-                    <field name="criticality"/>
                     <field name="employee_id"/>
                     <field name="category_ids"/>
                     <separator />
@@ -240,19 +284,19 @@
             <field name="name">Assets</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">asset.asset</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">tree,kanban,form</field>
             <field name="view_id" eval="False"/>
         </record>
 
         <record model="ir.actions.act_window.view" id="action_assets_kanban_view">
-            <field name="sequence" eval="0"/>
+            <field name="sequence" eval="1"/>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="assets_kanban_view"/>
             <field name="act_window_id" ref="action_assets"/>
         </record>
 
         <record model="ir.actions.act_window.view" id="action_assets_tree_view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="0"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="assets_tree_view"/>
             <field name="act_window_id" ref="action_assets"/>
@@ -278,20 +322,19 @@
             <field name="name">Manage states Asset Kanban</field>
             <field name="model">asset.asset</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="maintenance_state_id" create="false" delete="false">
-                    <field name="maintenance_state_id"/>
-                    <field name="maintenance_state_color"/>
+                <kanban create="false" delete="false">
+                   <!-- <field name="maintenance_state_id"/> -->
+                   <!-- <field name="maintenance_state_color"/> -->
                     <field name="user_id"/>
                     <field name="employee_id"/>
                     <field name="image_small"/>
-                    <field name="criticality"/>
                     <field name="id" />
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_card codup_kanban_status oe_kanban_global_click">
                                 <div class="codup_kanban_left">
                                     <a type="open"><img t-att-src="kanban_image('asset.asset', 'image_small', record.id.value)" class="oe_kanban_image" alt="manage image"/></a>
-                                    <div t-attf-title="#{record.maintenance_state_id.value}" t-attf-class="codup_status_color_#{record.maintenance_state_color.raw_value} codup_status"></div>
+                                  <!--  <div t-attf-title="#{record.maintenance_state_id.value}" t-attf-class="codup_status_color_#{record.maintenance_state_color.raw_value} codup_status"></div> -->
                                 </div>
                                 <div class="codup_kanban_details">
                                     <h4>
@@ -369,7 +412,6 @@
                         <group>
                             <group>
                                 <field name="state_color"/>
-                                <field name="team"/>
                             </group>
                             <group>
                             </group>
